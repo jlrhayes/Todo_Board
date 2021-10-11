@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
@@ -7,7 +8,6 @@ import Board from "./components/Board";
 
 function App() {
     const [userId, setUserId] = useState();
-
     //need to move this into board dashboard
     const [columns, setColumns] = useState([
         {
