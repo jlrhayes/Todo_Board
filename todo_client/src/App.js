@@ -4,26 +4,21 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
 import Board from "./components/Board";
 
 function App() {
     const [userId, setUserId] = useState();
     //need to move this into board dashboard
-    const [columns, setColumns] = useState([
-        {
-            id: 1,
-            name: "Todo",
-        },
-        {
-            id: 2,
-            name: "In progress",
-        },
-    ]);
+
 
     return (
         <BrowserRouter>
-            <Route render={() => <Board columns={columns} />} path="/" exact />
+            <Route render={() => <Dashboard />} path="/" exact />
             <Switch>
+                <Route path = "/boards/:id">
+                  <Board/>
+                </Route>
                 <Route path="/login">
                     <Login />
                 </Route>
