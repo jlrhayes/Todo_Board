@@ -1,14 +1,10 @@
 import { useState } from "react";
 
-const Submit = ({ onAdd, placeholder }) => {
+const AddColumn = ({ onAdd, placeholder }) => {
     const [name, setName] = useState("");
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (!name) {
-            alert("Please type text");
-            return;
-        }
         onAdd({ name });
 
         setName("");
@@ -18,14 +14,16 @@ const Submit = ({ onAdd, placeholder }) => {
         <form onSubmit={onSubmit}>
             <div>
                 <input
-                    type="text"
+                    name="task"
                     placeholder={placeholder}
+                    type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
                 />
             </div>
         </form>
     );
 };
 
-export default Submit;
+export default AddColumn;

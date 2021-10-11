@@ -1,5 +1,5 @@
 import Column from "./Column";
-import Submit from "./Submit";
+import AddColumn from "./AddColumn";
 import { useState } from "react";
 import './Board.css';
 
@@ -16,7 +16,7 @@ const Board = () => {
             {columns.map((column) => (
                 <Column className="column" key={column.id} column={column} />
             ))}
-            <Submit onAdd={addColumn} placeholder="Column Name"></Submit>
+            <AddColumn onAdd={addColumn} placeholder="Column Name"></AddColumn>
         </div>
     );
 };
