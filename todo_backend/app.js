@@ -97,23 +97,17 @@ app.get("/boards/:id/columns", async (req, res) => {
 });
 
 //Get all tasks of a column
-app.get("/boards/:boardId/columns/:columnId", async (req, res) => {
-  if (
-    checkIdValid(req.params.boardId, res) &&
-    checkIdValid(req.params.columnId, res)
-  ) {
-    const board = await Board.findByPk(req.params.boardId);
-    if (checkBoardExists(board, req.params.boardId, res)) {
-      const column = await Column.findByPk(req.params.columnId);
-      if (checkColumnExists(column, req.params.columnId, res)) {
-        const tasks = await column.getTasks();
-        if (tasks === null) {
-          res.status(404).send({
-            message: `No tasks available for column with id '${req.params.columnId}'`,
-          });
-        } else {
-          res.json(tasks);
-        }
+app.get("/columns/:id/tasks", async (req, res) => {
+  if (checkIdValid(req.params.id, res)) {
+    const column = await Column.findByPk(req.params.id);
+    if (checkColumnExists(column, req.params.id, res)) {
+      const tasks = await column.getTasks();
+      if (tasks === null) {
+        res.status(404).send({
+          message: `No tasks available for column with id '${req.params.id}'`,
+        });
+      } else {
+        res.json(tasks);
       }
     }
   }
@@ -152,17 +146,17 @@ app.delete("/tasks/:id", async (req, res) => {
   }
 });
 
-//Update column title
-app.put("/columns/:id", async (req, res) => {
+//Update column name
+app.patch("/columns/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
-    if (!req.body.title) {
+    if (!req.body.name) {
       res.status(400).send({
-        message: `Please pass a valid title`,
+        message: `Please pass a valid name`,
       });
     } else {
       const column = await Column.findByPk(req.params.id);
       if (checkColumnExists(column, req.params.id, res)) {
-        column.update({ title: req.body.title });
+        column.update({ name: req.body.name });
         res.send({ message: "Column updated successfully" });
       }
     }
@@ -170,7 +164,7 @@ app.put("/columns/:id", async (req, res) => {
 });
 
 //Update task
-app.put("/tasks/:id", async (req, res) => {
+app.patch("/tasks/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const task = await Task.findByPk(req.params.id);
     if (checkTaskExists(task, req.params.id, res)) {
@@ -184,16 +178,16 @@ app.put("/tasks/:id", async (req, res) => {
 });
 
 //Update board
-app.put("/boards/:id", async (req, res) => {
+app.patch("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
-    if (!req.body.title) {
+    if (!req.body.name) {
       res.status(400).send({
-        message: `Please pass a valid title`,
+        message: `Please pass a valid name`,
       });
     } else {
       const board = await Board.findByPk(req.params.id);
       if (checkBoardExists(board, req.params.id, res)) {
-        board.update({ title: req.body.title });
+        board.update({ name: req.body.name });
         res.send({ message: "Board updated successfully" });
       }
     }
@@ -202,31 +196,31 @@ app.put("/boards/:id", async (req, res) => {
 
 // Create a new board
 app.post("/boards", async (req, res) => {
-  if (!req.body.title) {
+  if (!req.body.name) {
     res.status(400).send({
-      message: `Please pass a valid title`,
+      message: `Please pass a valid name`,
     });
   } else {
     await Board.create({
-      title: req.body.title,
+      name: req.body.name,
     });
     res.send({ message: "Board created successfully" });
   }
 });
 
 // Create a new column
-app.post("/columns/:boardId", async (req, res) => {
-  if (checkIdValid(req.params.boardId, res)) {
-    if (!req.body.title) {
+app.post("/columns", async (req, res) => {
+  if (checkIdValid(req.body.boardId, res)) {
+    if (!req.body.name) {
       res.status(400).send({
-        message: `Please pass a valid title`,
+        message: `Please pass a valid name`,
       });
     } else {
-      const board = await Board.findByPk(req.params.boardId);
-      if (checkBoardExists(board, req.params.boardId, res)) {
+      const board = await Board.findByPk(req.body.boardId);
+      if (checkBoardExists(board, req.body.boardId, res)) {
         await Column.create({
-          title: req.body.title,
-          boardId: req.params.boardId,
+          name: req.body.name,
+          boardId: req.body.boardId,
         });
         res.send({ message: "Column created successfully" });
       }
@@ -235,19 +229,19 @@ app.post("/columns/:boardId", async (req, res) => {
 });
 
 // Create a new task
-app.post("/tasks/:columnId", async (req, res) => {
-  if (checkIdValid(req.params.columnId, res)) {
+app.post("/tasks", async (req, res) => {
+  if (checkIdValid(req.body.columnId, res)) {
     if (!req.body.title) {
       res.status(400).send({
         message: `Please pass a valid title`,
       });
     } else {
-      const column = await Column.findByPk(req.params.columnId);
-      if (checkColumnExists(column, req.params.columnId, res)) {
+      const column = await Column.findByPk(req.body.columnId);
+      if (checkColumnExists(column, req.body.columnId, res)) {
         await Task.create({
           title: req.body.title,
           description: req.body.description,
-          columnId: req.params.columnId,
+          columnId: req.body.columnId,
         });
         res.send({ message: "Task created successfully" });
       }
