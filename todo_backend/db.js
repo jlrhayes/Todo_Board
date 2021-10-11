@@ -1,11 +1,14 @@
 const { Sequelize } = require("sequelize");
 const path = require("path");
 
-const storage =
+const dbPath =
   process.env.NODE_ENV === "test"
     ? ":memory:"
     : path.join(__dirname, "todo_db.sqlite");
 
-const sequelize = new Sequelize({ dialect: "sqlite", storage, logging: false });
+const sequelize = new Sequelize({
+  dialect: "sqlite",
+  storage: dbPath,
+});
 
 module.exports = sequelize;

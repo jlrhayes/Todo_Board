@@ -1,21 +1,20 @@
-const sequelize = require("./db");
-const User = require("./User");
-const Board = require("./Board");
-const Column = require("./Column");
-const Task = require("./Task");
+const User = require("./user");
+const Board = require("./board");
+const Column = require("./column");
+const Task = require("./task");
+const db = require("./db");
 
 async function setupDb() {
-  //Create relationships between tables
+  User.hasMany(Board);
+  Board.belongsTo(User);
+  User.hasMany(Task);
+  Task.belongsTo(User);
   Board.hasMany(Column);
   Column.belongsTo(Board);
-
   Column.hasMany(Task);
   Task.belongsTo(Column);
 
-  Board.hasOne(User);
-  User.hasMany(Board);
-
-  await sequelize.sync();
+  await db.sync();
 }
 
 module.exports = setupDb;
