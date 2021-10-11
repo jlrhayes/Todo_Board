@@ -11,3 +11,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+* {
+  box-sizing: border-box;
+  margin: 10px;
+  padding: 0;
+}
+
+.board {
+  display: flex;
+  column-gap : 20px;
+  row-gap : 20px;
+  outline-width: 1px;
+  outline-style: dashed;
+  outline-color: red;
+}
+
+
+.column {
+  display : flex;
+  flex-direction: column;
+
+}
+
+header {
+  font-size: 30px;
+  font-weight: bold;
+}

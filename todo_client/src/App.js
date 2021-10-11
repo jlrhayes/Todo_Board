@@ -23,7 +23,6 @@ function App() {
     return (
         <BrowserRouter>
             <Route render={() => <Board columns={columns} />} path="/" exact />
-
             <Switch>
                 <Route path="/login">
                     <Login />
