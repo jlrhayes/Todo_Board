@@ -55,7 +55,7 @@ export default class Register extends React.Component {
                     <label>
                         Avatar URL:
                         <input
-                            name="avatar"
+                            name="avatarUrl"
                             type="url"
                             value={avatarUrl}
                             onChange={this.handleChange}
