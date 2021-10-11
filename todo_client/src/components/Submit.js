@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddColumn = ({ onAdd, placeholder }) => {
+const Submit = ({ onAdd, placeholder }) => {
     const [name, setName] = useState("");
 
     const onSubmit = (e) => {
@@ -28,4 +28,4 @@ const AddColumn = ({ onAdd, placeholder }) => {
     );
 };
 
-export default AddColumn;
+export default Submit;
