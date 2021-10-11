@@ -1,11 +1,14 @@
 const sequelize = require("./db");
 const express = require("express");
-const User = require("./User");
-const Board = require("./Board");
-const Column = require("./Column");
-const Task = require("./Task");
+const User = require("./user");
+const Board = require("./board");
+const Column = require("./column");
+const Task = require("./task");
+const sandbox = require("./sandbox");
 
 const app = express();
+
+sandbox();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -57,7 +60,7 @@ function checkTaskExists(task, id, res) {
 //Get all boards
 app.get("/boards", async (req, res) => {
   const boards = await Board.findAll();
-  if (board.length === 0 || board === null) {
+  if (boards.length === 0 || boards === null) {
     res.status(404).send({
       message: `No boards found`,
     });

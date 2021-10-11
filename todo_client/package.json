@@ -36,13 +36,11 @@
       "last 1 safari version"
     ]
   },
-
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
-
   "devDependencies": {
     "autoprefixer": "^9.8.8",
     "postcss": "^7.0.39",
