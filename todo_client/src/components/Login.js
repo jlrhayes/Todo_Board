@@ -27,7 +27,7 @@ export default class Login extends React.Component {
         const { username, password } = this.state;
 
         return (
-            <div className="login-wrapper">
+            <div className="form-wrapper">
                 <h2>Login</h2>
                 <form name="login" onSubmit={this.handleSubmit}>
                     <label>
