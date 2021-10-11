@@ -1,5 +1,5 @@
 import Task from "./Task";
-import AddColumn from "./AddColumn";
+import Submit from "./Submit";
 import { useState } from "react";
 
 const Column = ({ column }) => {
@@ -18,7 +18,7 @@ const Column = ({ column }) => {
             {tasks.map((task) => (
                 <Task className="task" key={task.id} task={task} />
             ))}
-            <AddColumn onAdd={addTask} placeholder="Add Task"></AddColumn>
+            <Submit onAdd={addTask} placeholder="Add Task"></Submit>
         </div>
     );
 };
