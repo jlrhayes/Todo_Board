@@ -6,6 +6,7 @@ const Task = ({task}) => {
             <h4>
                 {task.description}
             </h4>
+                {task.user}
             </h3>
         </div>
     )
