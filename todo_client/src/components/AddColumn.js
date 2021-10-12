@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 const AddColumn = ({ onAdd, placeholder }) => {
-    const [name, setName] = useState("");
+    const [title, setTitle] = useState('');
 
     const onSubmit = (e) => {
         e.preventDefault();
-        onAdd({ name });
+        onAdd({ title });
 
-        setName("");
+        setTitle("");
     };
 
     return (
@@ -17,8 +17,8 @@ const AddColumn = ({ onAdd, placeholder }) => {
                     name="task"
                     placeholder={placeholder}
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                     required
                 />
             </div>
