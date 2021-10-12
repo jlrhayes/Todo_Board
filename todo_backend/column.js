@@ -5,7 +5,7 @@ class Column extends Model {}
 
 Column.init(
   {
-    name: DataTypes.STRING,
+    title: DataTypes.STRING,
   },
   {
     sequelize,
