@@ -9,6 +9,7 @@ const dbPath =
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: dbPath,
+  logging: false,
 });
 
 module.exports = sequelize;
