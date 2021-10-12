@@ -22,7 +22,7 @@ const Dashboard = () => {
     }
 
     const getBoardData = () => {
-        fetch("http://localhost:4000/boards/")
+        fetch("http://localhost:4000/boards")
           .then((res) => res.json())
           .then((data) => setBoards(data))
     }
