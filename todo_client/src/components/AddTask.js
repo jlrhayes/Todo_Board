@@ -5,9 +5,9 @@ export default class AddTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "",
+            title: "",
             description: "",
-            user: "",
+            userId: 1,
             submitted: false,
         };
         this.handleChange = this.handleChange.bind(this);
@@ -27,7 +27,7 @@ export default class AddTask extends React.Component {
     }
 
     render() {
-        const { name, description } = this.state;
+        const { title, description, userId } = this.state;
 
         return (
             <div className="task-form form-wrapper">
@@ -36,10 +36,10 @@ export default class AddTask extends React.Component {
                     <label>
                         Task:
                         <input
-                            name="name"
+                            name="title"
                             type="text"
                             placeholder="Task"
-                            value={name}
+                            value={title}
                             onChange={this.handleChange}
                         />
                     </label>
@@ -55,9 +55,16 @@ export default class AddTask extends React.Component {
                     </label>
                     <label>
                         User:
-                        <select name="user" onChange={this.handleChange}>
-                            {this.props.users.map((user) => (
-                                <option value={user.id}>{user.name}</option>
+                        <select
+                            name="userId"
+                            value={userId}
+                            type="select"
+                            onChange={this.handleChange}
+                        >
+                            {this.props.users.map((availableUser) => (
+                                <option value={availableUser.id}>
+                                    {availableUser.name}
+                                </option>
                             ))}
                         </select>
                     </label>

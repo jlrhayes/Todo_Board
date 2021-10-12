@@ -2,17 +2,34 @@ import Task from "./Task";
 import AddTask from "./AddTask";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const Column = ({ column , onDelete}) => {
     //need to find tasks under column id and add to task list
     const [tasks, setTasks] = useState([]);
 
-    const addTask = (newTask) => {
-        // Placeholder function
-        // This should just send a POST request.
-        console.log(newTask);
-        setTasks([...tasks, newTask]);
+    React.useEffect(() => {
+        getTasks()
+      }, []);
+
+    const addTask = async (newTask) => {
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newTask),
+        };
+        await fetch(
+            `http://localhost:4000/tasks/${column.id}`,
+            requestOptions
+        );
+        getTasks();
+    };
+
+    const getTasks = () => {
+        fetch(`http://localhost:4000/boards/${column.boardId}/columns/${column.id}`)
+            .then((res) => res.json())
+            .then((data) => setTasks(data))
+            .catch((e) => console.log(e));
     };
 
     const getUsers = () => {
