@@ -31,7 +31,7 @@ export default class AddTask extends React.Component {
 
         return (
             <div className="task-form form-wrapper">
-                <h2>New Task</h2>
+                <h2 className="font-bold text-xl mx-2">New Task</h2>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Task:
