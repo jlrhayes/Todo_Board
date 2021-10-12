@@ -32,16 +32,19 @@ const Column = ({ column }) => {
 
     return (
         <div>
-            <div
-                className="spartan border-red-50 flex justify-between items-center">
+            <div className="spartan border-red-50 flex justify-between items-center">
                 <header>{column.name}</header>
-                <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                    <button className="delete-button submit" onClick={deleteColumn}>
+                <div className="flex justify-between">
+                    <button
+                        className="delete-button submit"
+                        onClick={deleteColumn}
+                    >
                         <DeleteIcon fontSize="small" />
                     </button>
-                    <button className="delete-button submit" onClick={editColumn}>
+                    <button
+                        className="delete-button submit"
+                        onClick={editColumn}
+                    >
                         <EditIcon fontSize="small" />
                     </button>
                 </div>
