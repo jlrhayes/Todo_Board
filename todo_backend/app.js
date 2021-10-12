@@ -73,8 +73,9 @@ app.get("/boards", async (req, res) => {
     res.status(404).send({
       message: `No boards found`,
     });
+  }else{
+    res.json(boards);
   }
-  res.json(boards);
 });
 
 //Get all users
@@ -205,13 +206,13 @@ app.patch("/boards/:id", async (req, res) => {
 
 // Create a new board
 app.post("/boards", async (req, res) => {
-  if (!req.body.name) {
+  if (!req.body.title) {
     res.status(400).send({
-      message: `Please pass a valid name`,
+      message: `Please pass a valid title`,
     });
   } else {
     await Board.create({
-      name: req.body.name,
+      title: req.body.title,
     });
     res.send({ message: "Board created successfully" });
   }
