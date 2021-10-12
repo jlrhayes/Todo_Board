@@ -49,8 +49,6 @@ describe("Get all the columns of a board with an id of 5", () => {
     return request(app)
       .get("/boards/5/columns")
       .then((response) => {
-        console.log(response);
-
         expect(response.statusCode).toBe(404);
       });
   });
@@ -104,8 +102,6 @@ describe("GET all the tasks of a column with an id of 5", () => {
     return request(app)
       .get("/columns/5/tasks")
       .then((response) => {
-        console.log(response);
-
         expect(response.statusCode).toBe(404);
       });
   });
@@ -521,7 +517,7 @@ describe("POST a board", () => {
     return request(app)
       .post("/boards")
       .send({
-        name: "New Board",
+        title: "New Board",
       })
       .then((response) => {
         expect(response.statusCode).toBe(200);
