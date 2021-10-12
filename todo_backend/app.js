@@ -134,7 +134,7 @@ app.delete("/boards/:id", async (req, res) => {
 });
 
 //Delete a column
-app.delete("/boards/boardId:/columns/:id", async (req, res) => {
+app.delete("/boards/:boardId/columns/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const column = await Column.findByPk(req.params.id);
     if (checkColumnExists(column, req.params.id, res)) {
@@ -225,11 +225,11 @@ app.post("/boards/:boardId/columns/", async (req, res) => {
         message: `Please pass a valid title`,
       });
     } else {
-      const board = await Board.findByPk(req.body.boardId);
-      if (checkBoardExists(board, req.body.boardId, res)) {
+      const board = await Board.findByPk(req.params.boardId);
+      if (checkBoardExists(board, req.params.boardId, res)) {
         await Column.create({
-          name: req.body.name,
-          boardId: req.body.boardId,
+          title: req.body.title,
+          boardId: req.params.boardId,
         });
         res.send({ message: "Column created successfully" });
       }

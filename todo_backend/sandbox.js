@@ -18,16 +18,16 @@ async function sandbox() {
 
   //Create board
   const newBoard = await newUser.createBoard({
-    name: "New Board",
+    title: "New Board",
   });
 
   // Create two columns
   const columnOne = await newBoard.createColumn({
-    name: "Column One",
+    title: "Column One",
   });
 
   const columnTwo = await newBoard.createColumn({
-    name: "Column Two",
+    title: "Column Two",
   });
 
   //Create a task for each column
