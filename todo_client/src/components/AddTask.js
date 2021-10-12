@@ -6,6 +6,7 @@ export default class AddTask extends React.Component {
         this.state = {
             name: "",
             description: "",
+            user: "",
             submitted: false,
         };
         this.handleChange = this.handleChange.bind(this);
@@ -47,6 +48,14 @@ export default class AddTask extends React.Component {
                             value={description}
                             onChange={this.handleChange}
                         />
+                    </label>
+                    <label>
+                        User:
+                        <select name="user" onChange={this.handleChange}>
+                            {this.props.users.map((user) => (
+                                <option value={user.id}>{user.name}</option>
+                            ))}
+                        </select>
                     </label>
                     <input classname="submit" type="submit" value="submit" />
                 </form>
