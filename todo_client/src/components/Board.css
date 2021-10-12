@@ -1,9 +1,16 @@
-.column {
-    display: flex;
+.board {
+  display: grid;
+  column-gap : 20px;
+  row-gap : 10px;
+  outline-width: 1px;
+  outline-style: dashed;
+  outline-color: red;
 }
 
-.board {
-    display: grid;
+
+.column {
+  display: grid;
+  flex-direction: column;
 }
 
 /* For mobile phones: */
@@ -17,10 +24,10 @@
         grid-template-columns: auto auto;
     }
 }
-
+/*
 @media only screen and (min-width: 1280px) {
-    /* Large desktop: */
     .board-lg {
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
+*/
