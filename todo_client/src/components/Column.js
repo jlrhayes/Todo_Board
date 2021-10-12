@@ -4,7 +4,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { useState } from "react";
 
-const Column = ({ column }) => {
+const Column = ({ column , onDelete}) => {
     //need to find tasks under column id and add to task list
     const [tasks, setTasks] = useState([]);
 
@@ -22,10 +22,6 @@ const Column = ({ column }) => {
         ];
     };
 
-    const deleteColumn = () => {
-        console.log("deleted");
-    };
-
     const editColumn = () => {
         console.log("edited");
     };
@@ -33,11 +29,11 @@ const Column = ({ column }) => {
     return (
         <div>
             <div className="spartan border-red-50 flex justify-between items-center">
-                <header>{column.name}</header>
+                <header>{column.title}</header>
                 <div className="flex justify-between">
                     <button
                         className="delete-button submit"
-                        onClick={deleteColumn}
+                        onClick={onDelete}
                     >
                         <DeleteIcon fontSize="small" />
                     </button>

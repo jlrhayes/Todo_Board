@@ -140,7 +140,7 @@ app.delete("/boards/:id", async (req, res) => {
 });
 
 //Delete a column
-app.delete("/columns/:id", async (req, res) => {
+app.delete("/boards/boardId:/columns/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const column = await Column.findByPk(req.params.id);
     if (checkColumnExists(column, req.params.id, res)) {
@@ -224,7 +224,7 @@ app.post("/boards", async (req, res) => {
 });
 
 // Create a new column
-app.post("/columns/:boardId", async (req, res) => {
+app.post("/boards/:boardId/columns/", async (req, res) => {
   if (checkIdValid(req.params.boardId, res)) {
     if (!req.body.title) {
       res.status(400).send({

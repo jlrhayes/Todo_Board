@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -14,7 +14,10 @@ function App() {
 
     return (
         <BrowserRouter>
-            <Route render={() => <Dashboard />} path="/" exact />
+            <Route exact path="/">
+                <Redirect to="/boards" /> 
+            </Route>
+            <Route render={() => <Dashboard />} path="/boards" exact />
             <Switch>
                 <Route path = "/boards/:id">
                   <Board/>
