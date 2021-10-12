@@ -12,13 +12,20 @@ const Column = ({ column }) => {
         console.log(newTask);
         setTasks([...tasks, newTask]);
     };
+
+    const getUsers = () => {
+        return [
+            { name: "bob", id: 1 },
+            { name: "emily", id: 2 },
+        ];
+    };
     return (
         <div>
             <header>{column.name}</header>
             {tasks.map((task) => (
                 <Task className="task" key={task.id} task={task} />
             ))}
-            <AddTask onAdd={addTask}></AddTask>
+            <AddTask onAdd={addTask} users={getUsers()}></AddTask>
         </div>
     );
 };
