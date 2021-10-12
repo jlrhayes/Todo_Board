@@ -1,24 +1,24 @@
 import {useState} from 'react'
 
 const AddBoard = ({onAdd}) => {
-    const [name,setName] = useState('')
+    const [title,setTitle] = useState('')
     
     const onSubmit = (e) =>{
         e.preventDefault()
-        if (!name){
+        if (!title){
             alert('Please type text')
             return
         }
-        onAdd({name})
+        onAdd({title})
 
-        setName('')
+        setTitle('')
     }
 
 
     return (
         <form onSubmit = {onSubmit}>
             <div>
-                <input type = "text" placeholder = "Board Name" value = {name}  onChange = {(e) => setName(e.target.value)}/>
+                <input type = "text" placeholder = "Board Name" value = {title}  onChange = {(e) => setTitle(e.target.value)}/>
             </div>
         </form>
     )

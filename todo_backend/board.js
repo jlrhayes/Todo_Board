@@ -5,7 +5,7 @@ class Board extends Model {}
 
 Board.init(
   {
-    name: DataTypes.STRING,
+    title: DataTypes.STRING,
   },
   {
     sequelize,
