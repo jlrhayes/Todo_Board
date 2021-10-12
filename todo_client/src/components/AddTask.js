@@ -1,4 +1,5 @@
 import React from "react";
+import "./AddTask.css";
 
 export default class AddTask extends React.Component {
     constructor(props) {
@@ -29,16 +30,19 @@ export default class AddTask extends React.Component {
         const { name, description } = this.state;
 
         return (
-            <div className="form-wrapper">
+            <div className="task-form form-wrapper">
                 <h2>New Task</h2>
                 <form onSubmit={this.handleSubmit}>
-                    <input
-                        name="name"
-                        type="text"
-                        placeholder="Task"
-                        value={name}
-                        onChange={this.handleChange}
-                    />
+                    <label>
+                        Task:
+                        <input
+                            name="name"
+                            type="text"
+                            placeholder="Task"
+                            value={name}
+                            onChange={this.handleChange}
+                        />
+                    </label>
                     <label>
                         Description:
                         <input
@@ -57,7 +61,7 @@ export default class AddTask extends React.Component {
                             ))}
                         </select>
                     </label>
-                    <input classname="submit" type="submit" value="submit" />
+                    <input className="submit" type="submit" value="submit" />
                 </form>
             </div>
         );
