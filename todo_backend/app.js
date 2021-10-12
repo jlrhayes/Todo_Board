@@ -107,7 +107,7 @@ app.get("/boards/:id/columns", async (req, res) => {
 });
 
 //Get all tasks of a column
-app.get("/columns/:id/tasks", async (req, res) => {
+app.get("/boards/:boardId/columns/:id/tasks", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const column = await Column.findByPk(req.params.id);
     if (checkColumnExists(column, req.params.id, res)) {
@@ -239,19 +239,19 @@ app.post("/boards/:boardId/columns/", async (req, res) => {
 });
 
 // Create a new task
-app.post("/tasks", async (req, res) => {
-  if (checkIdValid(req.body.columnId, res)) {
+app.post("/boards/:boardId/columns/:columnId/tasks", async (req, res) => {
+  if (checkIdValid(req.params.columnId, res)) {
     if (!req.body.title) {
       res.status(400).send({
         message: `Please pass a valid title`,
       });
     } else {
-      const column = await Column.findByPk(req.body.columnId);
-      if (checkColumnExists(column, req.body.columnId, res)) {
+      const column = await Column.findByPk(req.params.columnId);
+      if (checkColumnExists(column, req.params.columnId, res)) {
         await Task.create({
           title: req.body.title,
           description: req.body.description,
-          columnId: req.body.columnId,
+          columnId: req.params.columnId,
         });
         res.send({ message: "Task created successfully" });
       }
