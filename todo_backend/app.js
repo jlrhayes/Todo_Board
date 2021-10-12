@@ -7,6 +7,15 @@ const Task = require("./task");
 const sandbox = require("./sandbox");
 
 const app = express();
+const cors = require("cors");
+
+const corsOptions = {
+  origin: "*",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 sandbox();
 
@@ -125,7 +134,7 @@ app.delete("/boards/:id", async (req, res) => {
 });
 
 //Delete a column
-app.delete("/columns/:id", async (req, res) => {
+app.delete("/boards/boardId:/columns/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const column = await Column.findByPk(req.params.id);
     if (checkColumnExists(column, req.params.id, res)) {
@@ -209,11 +218,11 @@ app.post("/boards", async (req, res) => {
 });
 
 // Create a new column
-app.post("/columns", async (req, res) => {
-  if (checkIdValid(req.body.boardId, res)) {
-    if (!req.body.name) {
+app.post("/boards/:boardId/columns/", async (req, res) => {
+  if (checkIdValid(req.params.boardId, res)) {
+    if (!req.body.title) {
       res.status(400).send({
-        message: `Please pass a valid name`,
+        message: `Please pass a valid title`,
       });
     } else {
       const board = await Board.findByPk(req.body.boardId);

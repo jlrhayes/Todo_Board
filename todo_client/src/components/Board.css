@@ -1,0 +1,48 @@
+.board {
+  display: grid;
+  column-gap : 20px;
+  row-gap : 10px;
+  outline-width: 1px;
+  outline-style: dashed;
+  outline-color: red;
+}
+
+.column {
+  display: grid;
+  flex-direction: column;
+}
+
+.delete-button {
+    font-size: 18px;
+    padding: 0px;
+    margin-left: 5px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    opacity: 0.75;
+}
+
+.delete-button:active {
+    opacity: 0.4;
+}
+
+/* For mobile phones: */
+[class*="board"] {
+    grid-template-columns: 1fr;
+}
+
+@media only screen and (min-width: 768px) {
+    /* Medium desktop: */
+    .board-md {
+        grid-template-columns: auto auto;
+    }
+}
+/*
+@media only screen and (min-width: 1280px) {
+    .board-lg {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+*/
