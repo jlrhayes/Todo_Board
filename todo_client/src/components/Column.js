@@ -1,5 +1,7 @@
 import Task from "./Task";
 import AddTask from "./AddTask";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import { useState } from "react";
 
 const Column = ({ column }) => {
@@ -19,9 +21,31 @@ const Column = ({ column }) => {
             { name: "emily", id: 2 },
         ];
     };
+
+    const deleteColumn = () => {
+        console.log("deleted");
+    };
+
+    const editColumn = () => {
+        console.log("edited");
+    };
+
     return (
         <div>
-            <header>{column.name}</header>
+            <div
+                className="spartan border-red-50 flex justify-between items-center">
+                <header>{column.name}</header>
+                <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                    <button className="delete-button submit" onClick={deleteColumn}>
+                        <DeleteIcon fontSize="small" />
+                    </button>
+                    <button className="delete-button submit" onClick={editColumn}>
+                        <EditIcon fontSize="small" />
+                    </button>
+                </div>
+            </div>
             {tasks.map((task) => (
                 <Task className="task" key={task.id} task={task} />
             ))}
