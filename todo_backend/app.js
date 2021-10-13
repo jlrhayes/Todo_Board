@@ -89,6 +89,17 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+//Get user by id
+app.get("/users/:id", async (req, res) => {
+  const user = await User.findByPk(req.params.id);
+  if (user.length === 0 || user === null) {
+    res.status(404).send({
+      message: `No users found`,
+    });
+  }
+  res.json(user);
+});
+
 //Get all columns of a board
 app.get("/boards/:id/columns", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
