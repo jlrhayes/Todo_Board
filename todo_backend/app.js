@@ -1,4 +1,5 @@
 const sequelize = require("./db");
+const { validate, ValidationError, Joi } = require("express-validation");
 const express = require("express");
 const User = require("./user");
 const Board = require("./board");
@@ -241,6 +242,30 @@ app.post("/boards", async (req, res) => {
   }
 });
 
+const userValidation = {
+    body: Joi.object({
+        name: Joi.string().required(),
+        passwordHash: Joi.string().required(),
+        email: Joi.string().required(),
+        avatarUrl: Joi.string().required(),
+        isAdmin: Joi.boolean().required()
+    }),
+};
+
+// Create a new user
+app.post("/users",
+    validate(userValidation, {}, {}),
+    async (req, res) => {
+    await User.create({
+        name: req.body.name,
+        passwordHash: req.body.passwordHash,
+        email: req.body.email,
+        avatarUrl: req.body.avatarUrl,
+        isAdmin: req.body.isAdmin
+    });
+    res.send({ message: "User created successfully" });
+});
+
 // Create a new column
 app.post("/boards/:boardId/columns/", async (req, res) => {
   if (checkIdValid(req.params.boardId, res)) {
@@ -280,6 +305,13 @@ app.post("/tasks", async (req, res) => {
       }
     }
   }
+});
+
+app.use(function (err, req, res, next) {
+    if (err instanceof ValidationError) {
+        return res.status(err.statusCode).json(err);
+    }
+    return res.status(500).json(err);
 });
 
 module.exports = app;
