@@ -42,7 +42,7 @@ const Board = () => {
     return (
         <div className="board board-md board-lg">
             {columns.map((column) => (
-                <Column className="column" key={column.id} column={column} onDelete = {deleteColumn} />
+                <Column className="column" key={column.id} column={column} onDelete = {() => deleteColumn(column.id)} />
             ))}
             <AddColumn onAdd={addColumn} placeholder="Column Name"></AddColumn>
             <Link to = '/boards'>

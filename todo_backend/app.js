@@ -1,4 +1,5 @@
 const sequelize = require("./db");
+const { validate, ValidationError, Joi } = require("express-validation");
 const express = require("express");
 const User = require("./user");
 const Board = require("./board");
@@ -89,6 +90,17 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+//Get user by id
+app.get("/users/:id", async (req, res) => {
+  const user = await User.findByPk(req.params.id);
+  if (user.length === 0 || user === null) {
+    res.status(404).send({
+      message: `No users found`,
+    });
+  }
+  res.json(user);
+});
+
 //Get all columns of a board
 app.get("/boards/:id/columns", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
@@ -107,7 +119,7 @@ app.get("/boards/:id/columns", async (req, res) => {
 });
 
 //Get all tasks of a column
-app.get("/columns/:id/tasks", async (req, res) => {
+app.get("/boards/:boardId/columns/:id/tasks", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const column = await Column.findByPk(req.params.id);
     if (checkColumnExists(column, req.params.id, res)) {
@@ -126,9 +138,11 @@ app.get("/columns/:id/tasks", async (req, res) => {
 //Delete a board
 app.delete("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
+    console.log(req.params.id)
     const board = await Board.findByPk(req.params.id);
     if (checkBoardExists(board, req.params.id, res)) {
-      Task.destroy({
+      
+      Board.destroy({
         where: {
           id: req.params.id,
         },
@@ -230,6 +244,30 @@ app.post("/boards", async (req, res) => {
   }
 });
 
+const userValidation = {
+    body: Joi.object({
+        name: Joi.string().required(),
+        passwordHash: Joi.string().required(),
+        email: Joi.string().required(),
+        avatarUrl: Joi.string().required(),
+        isAdmin: Joi.boolean().required()
+    }),
+};
+
+// Create a new user
+app.post("/users",
+    validate(userValidation, {}, {}),
+    async (req, res) => {
+    const user = await User.create({
+        name: req.body.name,
+        passwordHash: req.body.passwordHash,
+        email: req.body.email,
+        avatarUrl: req.body.avatarUrl,
+        isAdmin: req.body.isAdmin
+    });
+    res.send({ message: "User created successfully", user });
+});
+
 // Create a new column
 app.post("/boards/:boardId/columns/", async (req, res) => {
   if (checkIdValid(req.params.boardId, res)) {
@@ -251,24 +289,31 @@ app.post("/boards/:boardId/columns/", async (req, res) => {
 });
 
 // Create a new task
-app.post("/tasks", async (req, res) => {
-  if (checkIdValid(req.body.columnId, res)) {
+app.post("/boards/:boardId/columns/:columnId/tasks", async (req, res) => {
+  if (checkIdValid(req.params.columnId, res)) {
     if (!req.body.title) {
       res.status(400).send({
         message: `Please pass a valid title`,
       });
     } else {
-      const column = await Column.findByPk(req.body.columnId);
-      if (checkColumnExists(column, req.body.columnId, res)) {
+      const column = await Column.findByPk(req.params.columnId);
+      if (checkColumnExists(column, req.params.columnId, res)) {
         await Task.create({
           title: req.body.title,
           description: req.body.description,
-          columnId: req.body.columnId,
+          columnId: req.params.columnId,
         });
         res.send({ message: "Task created successfully" });
       }
     }
   }
+});
+
+app.use(function (err, req, res, next) {
+    if (err instanceof ValidationError) {
+        return res.status(err.statusCode).json(err);
+    }
+    return res.status(500).json(err);
 });
 
 module.exports = app;

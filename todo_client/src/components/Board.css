@@ -1,14 +1,15 @@
 .board {
+  background-color: var(--background-beige);
   display: grid;
   column-gap : 20px;
   row-gap : 10px;
-  outline-width: 1px;
-  outline-style: dashed;
-  outline-color: red;
+  border: 1px dashed var(--accent-orange);
+  padding: 5px 5px;
+  justify-content: space-evenly;
 }
 
 .column {
-  display: grid;
+  justify-self: center;
   flex-direction: column;
 }
 
@@ -31,18 +32,20 @@
 /* For mobile phones: */
 [class*="board"] {
     grid-template-columns: 1fr;
+    justify-content: center;
+    margin: 40px;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
     /* Medium desktop: */
     .board-md {
         grid-template-columns: auto auto;
     }
 }
-/*
+
 @media only screen and (min-width: 1280px) {
     .board-lg {
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
-*/
+

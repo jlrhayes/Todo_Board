@@ -13,20 +13,21 @@ const Column = ({ column , onDelete}) => {
       }, []);
 
     const addTask = async (newTask) => {
+        newTask["columnId"] = column.id;
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newTask),
         };
         await fetch(
-            `http://localhost:4000/tasks/${column.id}`,
+            `http://localhost:4000/boards/${column.boardId}/columns/${column.id}/tasks`,
             requestOptions
         );
         getTasks();
     };
 
     const getTasks = () => {
-        fetch(`http://localhost:4000/boards/${column.boardId}/columns/${column.id}`)
+        fetch(`http://localhost:4000/boards/${column.boardId}/columns/${column.id}/tasks`)
             .then((res) => res.json())
             .then((data) => setTasks(data))
             .catch((e) => console.log(e));
@@ -39,12 +40,21 @@ const Column = ({ column , onDelete}) => {
         ];
     };
 
+    const deleteTask = async (id) => {
+        const requestOptions = { method: "DELETE" };
+        await fetch(
+            `http://localhost:4000/tasks/${id}`,
+            requestOptions
+        );
+        getTasks();
+    };
+
     const editColumn = () => {
         console.log("edited");
     };
 
     return (
-        <div>
+        <div className="w-96 mx-8 justify-self-center">
             <div className="spartan border-red-50 flex justify-between items-center">
                 <header>{column.title}</header>
                 <div className="flex justify-between">
@@ -63,7 +73,8 @@ const Column = ({ column , onDelete}) => {
                 </div>
             </div>
             {tasks.map((task) => (
-                <Task className="task" key={task.id} task={task} />
+                <Task className="task" key={task.id} task={task} 
+                deleteTask={() => deleteTask(task.id)} />
             ))}
             <AddTask onAdd={addTask} users={getUsers()}></AddTask>
         </div>

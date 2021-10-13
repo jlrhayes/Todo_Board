@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
+import NavBar from "./components/NavBar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
@@ -14,6 +15,7 @@ function App() {
 
     return (
         <BrowserRouter>
+            <NavBar />
             <Route exact path="/">
                 <Redirect to="/boards" /> 
             </Route>

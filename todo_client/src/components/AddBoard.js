@@ -1,9 +1,13 @@
-import {useState} from 'react'
+import React,{useState} from 'react'
+import ModalComponent from './ModalComponent'
 
 const AddBoard = ({onAdd}) => {
     const [title,setTitle] = useState('')
+
+      
     
     const onSubmit = (e) =>{
+        console.log(e)
         e.preventDefault()
         if (!title){
             alert('Please type text')
@@ -13,14 +17,15 @@ const AddBoard = ({onAdd}) => {
 
         setTitle('')
     }
-
-
+    //inputs takes an array of objects for each input for the modal 
+    //{type : {input type}, placeholder: {placeholder} , onChange : {function to change value}}
     return (
-        <form onSubmit = {onSubmit}>
             <div>
-                <input type = "text" placeholder = "Board Name" value = {title}  onChange = {(e) => setTitle(e.target.value)}/>
+                <ModalComponent inputs = {[
+                    { type : 'text', placeholder : 'Board Name' , onChange : function (e){setTitle(e)}},
+                    ]}  
+                    onSubmit = {onSubmit} modalText = 'Add a new Board'/> 
             </div>
-        </form>
     )
 }
 
