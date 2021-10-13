@@ -29,17 +29,17 @@ describe("/users works", () => {
       });
   });
 
-  test("get user by ID", async () => {
-      // Trying to get a user which doesn't exist => 404
-      const notFoundResponse = await request(app).get("/users/100");
-      expect(notFoundResponse.statusCode).toBe(404);
+  test("GET user by ID", async () => {
+    // Trying to get a user which doesn't exist => 404
+    const notFoundResponse = await request(app).get("/users/100");
+    expect(notFoundResponse.statusCode).toBe(404);
 
-      // Trying to get a user which does exist => 200
-      const okResponse = await request(app).get("/users/1");
-      expect(okResponse.statusCode).toBe(200);
+    // Trying to get a user which does exist => 200
+    const okResponse = await request(app).get("/users/1");
+    expect(okResponse.statusCode).toBe(200);
   });
-});
 
+});
 
 // ------------------------------------------------------------
 
