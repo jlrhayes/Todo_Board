@@ -6,8 +6,15 @@
     --accent-pink: #ffc4b6;
 }
 
+#root {
+    width: 100%;
+    position: absolute;
+    overflow: scroll;
+    top: 0;
+}
+
 body {
-    margin: 0;
+    margin: 0px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
         "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
         "Helvetica Neue", sans-serif;
@@ -19,9 +26,9 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
 }
+
 * {
     box-sizing: border-box;
-    margin: 10px;
     padding: 0;
 }
 
