@@ -2,11 +2,9 @@ const app = require("./app");
 const request = require("supertest");
 const sandbox = require("./sandbox");
 
-
 beforeEach(async () => {
   await sandbox();
 });
-
 
 // -----------------------------------------------------------------
 
@@ -24,7 +22,7 @@ describe("GET all boards", () => {
 // getting all the users
 describe("GET all users", () => {
   test("/users works", () => {
-    return request(app) 
+    return request(app)
       .get("/users")
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -46,14 +44,11 @@ describe("GET all columns from a board", () => {
   });
 });
 
-
 describe("Get all the columns of a board with an id of 5", () => {
   test("/boards/5/columns returns 404", () => {
     return request(app)
       .get("/boards/5/columns")
       .then((response) => {
-        console.log(response);
-
         expect(response.statusCode).toBe(404);
       });
   });
@@ -89,7 +84,6 @@ describe("Get all the columns of a board with an id of 1.5", () => {
   });
 });
 
-
 // -----------------------------------------------------------------
 // get all the tasks from a column
 
@@ -103,19 +97,15 @@ describe("GET all tasks from a column", () => {
   });
 });
 
-
 describe("GET all the tasks of a column with an id of 5", () => {
   test("/columns/5/tasks returns 404", () => {
     return request(app)
       .get("/columns/5/tasks")
       .then((response) => {
-        console.log(response);
-
         expect(response.statusCode).toBe(404);
       });
   });
 });
-
 
 describe("GET all the tasks of a column with an id of -5", () => {
   test("/columns/-5/tasks returns 400", () => {
@@ -126,7 +116,6 @@ describe("GET all the tasks of a column with an id of -5", () => {
       });
   });
 });
-
 
 describe("GET all the tasks of a column with an id of nonInt", () => {
   test("/columns/nonInt/tasks returns 400", () => {
@@ -154,7 +143,7 @@ describe("GET all the tasks of a column with an id of 1.5", () => {
 describe("DELETE a board with an id of 1", () => {
   test("/boards/1 returns 200", () => {
     return request(app)
-      .delete("/board/1")
+      .delete("/boards/1")
       .then((response) => {
         expect(response.statusCode).toBe(200);
       });
@@ -164,7 +153,7 @@ describe("DELETE a board with an id of 1", () => {
 describe("DELETE a board with an id of -5", () => {
   test("/boards/-5 returns 200", () => {
     return request(app)
-      .delete("/board/-5")
+      .delete("/boards/-5")
       .then((response) => {
         expect(response.statusCode).toBe(400);
       });
@@ -174,7 +163,7 @@ describe("DELETE a board with an id of -5", () => {
 describe("DELETE a board with an id of 5", () => {
   test("DELETE /boards/5 returns 404", () => {
     return request(app)
-      .delete("/board/5")
+      .delete("/boards/5")
       .then((response) => {
         expect(response.statusCode).toBe(404);
       });
@@ -184,7 +173,7 @@ describe("DELETE a board with an id of 5", () => {
 describe("DELETE a board with a string id", () => {
   test("DELETE /boards/nonInt returns 400", () => {
     return request(app)
-      .delete("/board/nonInt")
+      .delete("/boards/nonInt")
       .then((response) => {
         expect(response.statusCode).toBe(400);
       });
@@ -194,55 +183,51 @@ describe("DELETE a board with a string id", () => {
 describe("DELETE a board with a float id", () => {
   test("DELETE /boards/1.5 returns 400", () => {
     return request(app)
-      .delete("/board/1.5")
+      .delete("/boards/1.5")
       .then((response) => {
         expect(response.statusCode).toBe(400);
       });
   });
 });
-
 
 // -------------------------------------------------------------------------
 
 // deleting a column
 
 describe("DELETE a column with an id of 1", () => {
-  test("DELETE /columns/1 returns 200", () => {
+  test("DELETE /boards/1/columns/1 returns 200", () => {
     return request(app)
-      .delete("/columns/1")
+      .delete("/boards/1/columns/1")
       .then((response) => {
         expect(response.statusCode).toBe(200);
       });
   });
 });
 
-
 describe("DELETE a column that is not in the database", () => {
-  test("DELETE /columns/5 returns 404", () => {
+  test("DELETE /boards/1/columns/5 returns 404", () => {
     return request(app)
-      .delete("/columns/5")
+      .delete("/boards/1/columns/5")
       .then((response) => {
         expect(response.statusCode).toBe(404);
       });
   });
 });
 
-
 describe("DELETE a column with a negative id", () => {
-  test("DELETE /columns/-5 returns 400", () => {
+  test("DELETE /boards/1/columns/-5 returns 400", () => {
     return request(app)
-      .delete("/columns/-5")
+      .delete("/boards/1/columns/-5")
       .then((response) => {
         expect(response.statusCode).toBe(400);
       });
   });
 });
 
-
 describe("DELETE a column with a string id", () => {
-  test("DELETE /columns/nonInt returns 400", () => {
+  test("DELETE /boards/1/columns/nonInt returns 400", () => {
     return request(app)
-      .delete("/columns/nonInt")
+      .delete("/boards/1/columns/nonInt")
       .then((response) => {
         expect(response.statusCode).toBe(400);
       });
@@ -250,9 +235,9 @@ describe("DELETE a column with a string id", () => {
 });
 
 describe("DELETE a column with a float id", () => {
-  test("DELETE /columns/1.5 returns 400", () => {
+  test("DELETE /boards/1/columns/1.5 returns 400", () => {
     return request(app)
-      .delete("/columns/1.5")
+      .delete("/boards/1/columns/1.5")
       .then((response) => {
         expect(response.statusCode).toBe(400);
       });
@@ -260,7 +245,7 @@ describe("DELETE a column with a float id", () => {
 });
 // -----------------------------------------------------------------------
 
-// deleting  Task 
+// deleting  Task
 
 describe("DELETE a task with an id of 1", () => {
   test("DELETE /tasks/1 returns 200", () => {
@@ -316,9 +301,9 @@ describe("DELETE a task with a float id", () => {
 // update board name
 
 describe("UPDATE a board title with an id of 1", () => {
-  test("PUT /boards/1 returns 200", () => {
+  test("PATCH /boards/1 returns 200", () => {
     return request(app)
-      .put("/boards/1")
+      .patch("/boards/1")
       .send({
         name: "New Board",
       })
@@ -329,9 +314,9 @@ describe("UPDATE a board title with an id of 1", () => {
 });
 
 describe("UPDATE a board title that is not in the database", () => {
-  test("PUT /boards/5 returns 404", () => {
+  test("PATCH /boards/5 returns 404", () => {
     return request(app)
-      .put("/boards/5")
+      .patch("/boards/5")
       .send({
         name: "New Board",
       })
@@ -342,9 +327,9 @@ describe("UPDATE a board title that is not in the database", () => {
 });
 
 describe("UPDATE a board title with a negative id", () => {
-  test("PUT /boards/-5 returns 400", () => {
+  test("PATCH /boards/-5 returns 400", () => {
     return request(app)
-      .put("/boards/-5")
+      .patch("/boards/-5")
       .send({
         name: "New Board",
       })
@@ -355,9 +340,9 @@ describe("UPDATE a board title with a negative id", () => {
 });
 
 describe("UPDATE a board title with a string id", () => {
-  test("PUT /boards/nonInt returns 400", () => {
+  test("PATCH /boards/nonInt returns 400", () => {
     return request(app)
-      .put("/boards/nonInt")
+      .patch("/boards/nonInt")
       .send({
         name: "New Board",
       })
@@ -368,9 +353,9 @@ describe("UPDATE a board title with a string id", () => {
 });
 
 describe("UPDATE a board title with a float id", () => {
-  test("PUT /boards/1.5 returns 400", () => {
+  test("PATCH /boards/1.5 returns 400", () => {
     return request(app)
-      .put("/boards/1.5")
+      .patch("/boards/1.5")
       .send({
         name: "New Board",
       })
@@ -385,9 +370,9 @@ describe("UPDATE a board title with a float id", () => {
 // update a column title
 
 describe("UPDATE a column title with an id of 1", () => {
-  test("PUT /columns/1 returns 200", () => {
+  test("PATCH /columns/1 returns 200", () => {
     return request(app)
-      .put("/columns/1")
+      .patch("/columns/1")
       .send({
         name: "New Column",
       })
@@ -397,11 +382,10 @@ describe("UPDATE a column title with an id of 1", () => {
   });
 });
 
-
 describe("UPDATE a column title that is not in the database", () => {
-  test("PUT /columns/5 returns 404", () => {
+  test("PATCH /columns/5 returns 404", () => {
     return request(app)
-      .put("/columns/5")
+      .patch("/columns/5")
       .send({
         name: "New Column",
       })
@@ -411,11 +395,10 @@ describe("UPDATE a column title that is not in the database", () => {
   });
 });
 
-
 describe("UPDATE a column title with a negative id ", () => {
-  test("PUT /columns/-5 returns 400", () => {
+  test("PATCH /columns/-5 returns 400", () => {
     return request(app)
-      .put("/columns/-5")
+      .patch("/columns/-5")
       .send({
         name: "New Column",
       })
@@ -425,11 +408,10 @@ describe("UPDATE a column title with a negative id ", () => {
   });
 });
 
-
 describe("UPDATE a column title with a string id", () => {
-  test("PUT /columns/nonInt returns 400", () => {
+  test("PATCH /columns/nonInt returns 400", () => {
     return request(app)
-      .put("/columns/nonInt")
+      .patch("/columns/nonInt")
       .send({
         name: "New Column",
       })
@@ -440,9 +422,9 @@ describe("UPDATE a column title with a string id", () => {
 });
 
 describe("UPDATE a column title with a float id", () => {
-  test("PUT /columns/1.5 returns 400", () => {
+  test("PATCH /columns/1.5 returns 400", () => {
     return request(app)
-      .put("/columns/1.5")
+      .patch("/columns/1.5")
       .send({
         name: "New Column",
       })
@@ -454,12 +436,12 @@ describe("UPDATE a column title with a float id", () => {
 
 // ---------------------------------------------------------------
 
-// update a task 
+// update a task
 
 describe("UPDATE a task ", () => {
-  test("PUT /tasks/1 returns 200", () => {
+  test("PATCH /tasks/1 returns 200", () => {
     return request(app)
-      .put("/tasks/1")
+      .patch("/tasks/1")
       .send({
         title: "New Task",
         description: "New Description",
@@ -471,9 +453,9 @@ describe("UPDATE a task ", () => {
 });
 
 describe("UPDATE a task that is not in the database ", () => {
-  test("PUT /tasks/5 returns 404", () => {
+  test("PATCH /tasks/5 returns 404", () => {
     return request(app)
-      .put("/tasks/5")
+      .patch("/tasks/5")
       .send({
         title: "New Task",
         description: "New Description",
@@ -485,9 +467,9 @@ describe("UPDATE a task that is not in the database ", () => {
 });
 
 describe("UPDATE a task that has a negative id", () => {
-  test("PUT /tasks/-5 returns 400", () => {
+  test("PATCH /tasks/-5 returns 400", () => {
     return request(app)
-      .put("/tasks/-5")
+      .patch("/tasks/-5")
       .send({
         title: "New Task",
         description: "New Description",
@@ -499,9 +481,9 @@ describe("UPDATE a task that has a negative id", () => {
 });
 
 describe("UPDATE a task that has a string id", () => {
-  test("PUT /tasks/nonInt returns 400", () => {
+  test("PATCH /tasks/nonInt returns 400", () => {
     return request(app)
-      .put("/tasks/nonInt")
+      .patch("/tasks/nonInt")
       .send({
         title: "New Task",
         description: "New Description",
@@ -513,9 +495,9 @@ describe("UPDATE a task that has a string id", () => {
 });
 
 describe("UPDATE a task that has a float id", () => {
-  test("PUT /tasks/1.5 returns 400", () => {
+  test("PATCH /tasks/1.5 returns 400", () => {
     return request(app)
-      .put("/tasks/1.5")
+      .patch("/tasks/1.5")
       .send({
         title: "New Task",
         description: "New Description",
@@ -535,7 +517,7 @@ describe("POST a board", () => {
     return request(app)
       .post("/boards")
       .send({
-        name: "New Board",
+        title: "New Board",
       })
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -548,11 +530,11 @@ describe("POST a board", () => {
 // creating a new column
 
 describe("POST a column", () => {
-  test("/boards/1/colummns returns 200", () => {
+  test("/boards/1/columns returns 200", () => {
     return request(app)
-      .post("/boards/1/colummns ")
+      .post("/boards/1/columns")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -561,11 +543,11 @@ describe("POST a column", () => {
 });
 
 describe("POST a column on a board that is not in the database", () => {
-  test("/boards/5/colummns returns 404", () => {
+  test("/boards/5/columns returns 404", () => {
     return request(app)
-      .post("/boards/5/colummns ")
+      .post("/boards/5/columns")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(404);
@@ -574,11 +556,11 @@ describe("POST a column on a board that is not in the database", () => {
 });
 
 describe("POST a column on a board that has a negative id", () => {
-  test("/boards/-5/colummns returns 400", () => {
+  test("/boards/-5/columns returns 400", () => {
     return request(app)
-      .post("/boards/-5/colummns ")
+      .post("/boards/-5/columns")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -587,11 +569,11 @@ describe("POST a column on a board that has a negative id", () => {
 });
 
 describe("POST a column on a board that has a string id", () => {
-  test("/boards/nonInt/colummns returns 400", () => {
+  test("/boards/nonInt/ returns 400", () => {
     return request(app)
-      .post("/boards/nonInt/colummns ")
+      .post("/boards/nonInt/columns")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -600,11 +582,11 @@ describe("POST a column on a board that has a string id", () => {
 });
 
 describe("POST a column on a board that has a float id", () => {
-  test("/boards/1.5/colummns returns 400", () => {
+  test("/boards/1.5/columns returns 400", () => {
     return request(app)
-      .post("/boards/1.5/colummns ")
+      .post("/boards/1.5/columns")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -616,12 +598,13 @@ describe("POST a column on a board that has a float id", () => {
 // creating a new task
 
 describe("POST a task", () => {
-  test("POST /columns/1/tasks returns 200", () => {
+  test("POST /tasks with columnId as '1' returns 200", () => {
     return request(app)
-      .post("/colummns/1/tasks")
+      .post("/tasks")
       .send({
         title: "New Task",
         description: "description",
+        columnId: 1,
       })
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -629,14 +612,14 @@ describe("POST a task", () => {
   });
 });
 
-
 describe("POST a task on a column that is not in the database", () => {
-  test("POST /columns/5/tasks returns 404", () => {
+  test("POST /tasks with columnId as '5' returns 404", () => {
     return request(app)
-      .post("/colummns/5/tasks")
+      .post("/columns/5/tasks")
       .send({
         title: "New Task",
         description: "description",
+        columnId: 5,
       })
       .then((response) => {
         expect(response.statusCode).toBe(404);
@@ -645,12 +628,13 @@ describe("POST a task on a column that is not in the database", () => {
 });
 
 describe("POST a task on a column with a negative id", () => {
-  test("POST /columns/-5/tasks returns 400", () => {
+  test("POST /tasks with columnId as '-5' returns 400", () => {
     return request(app)
-      .post("/colummns/-5/tasks")
+      .post("/tasks")
       .send({
         title: "New Task",
         description: "description",
+        columnId: -5,
       })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -659,12 +643,13 @@ describe("POST a task on a column with a negative id", () => {
 });
 
 describe("POST a task on a column with a string id", () => {
-  test("POST /columns/nonInt/tasks returns 400", () => {
+  test("POST /tasks with columnId as 'nonInt' returns 400", () => {
     return request(app)
-      .post("/colummns/nonInt/tasks")
+      .post("/tasks")
       .send({
         title: "New Task",
         description: "description",
+        columnId: "nonInt",
       })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -673,17 +658,16 @@ describe("POST a task on a column with a string id", () => {
 });
 
 describe("POST a task on a column with a float id", () => {
-  test("POST /columns/1.5/tasks returns 400", () => {
+  test("POST /tasks with columnId as '1.5' returns 400", () => {
     return request(app)
-      .post("/colummns/1.5/tasks")
+      .post("/tasks")
       .send({
         title: "New Task",
         description: "description",
+        columnId: 1.5,
       })
       .then((response) => {
         expect(response.statusCode).toBe(400);
       });
   });
 });
-
-

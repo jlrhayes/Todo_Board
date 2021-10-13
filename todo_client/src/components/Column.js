@@ -13,7 +13,7 @@ const Column = ({ column , onDelete}) => {
       }, []);
 
     const addTask = async (newTask) => {
-        console.log(newTask)
+        newTask["columnId"] = column.id;
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },

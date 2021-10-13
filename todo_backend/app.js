@@ -73,7 +73,7 @@ app.get("/boards", async (req, res) => {
     res.status(404).send({
       message: `No boards found`,
     });
-  }else{
+  } else {
     res.json(boards);
   }
 });
@@ -87,6 +87,17 @@ app.get("/users", async (req, res) => {
     });
   }
   res.json(users);
+});
+
+//Get user by id
+app.get("/users/:id", async (req, res) => {
+  const user = await User.findByPk(req.params.id);
+  if (user.length === 0 || user === null) {
+    res.status(404).send({
+      message: `No users found`,
+    });
+  }
+  res.json(user);
 });
 
 //Get all columns of a board
@@ -128,18 +139,26 @@ app.delete("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const board = await Board.findByPk(req.params.id);
     if (checkBoardExists(board, req.params.id, res)) {
-      board.destroy();
+      Task.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
       res.send({ message: "Board deleted successfully" });
     }
   }
 });
 
 //Delete a column
-app.delete("/boards/boardId:/columns/:id", async (req, res) => {
+app.delete("/boards/:boardId/columns/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const column = await Column.findByPk(req.params.id);
     if (checkColumnExists(column, req.params.id, res)) {
-      column.destroy();
+      Column.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
       res.send({ message: "Column deleted successfully" });
     }
   }
@@ -150,7 +169,11 @@ app.delete("/tasks/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const task = await Task.findByPk(req.params.id);
     if (checkTaskExists(task, req.params.id, res)) {
-      task.destroy();
+      Task.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
       res.send({ message: "Task deleted successfully" });
     }
   }
