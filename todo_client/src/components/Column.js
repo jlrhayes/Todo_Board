@@ -54,7 +54,7 @@ const Column = ({ column , onDelete}) => {
     };
 
     return (
-        <div>
+        <div className="w-96 mx-8 justify-self-center">
             <div className="spartan border-red-50 flex justify-between items-center">
                 <header>{column.title}</header>
                 <div className="flex justify-between">
