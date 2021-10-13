@@ -256,14 +256,14 @@ const userValidation = {
 app.post("/users",
     validate(userValidation, {}, {}),
     async (req, res) => {
-    await User.create({
+    const user = await User.create({
         name: req.body.name,
         passwordHash: req.body.passwordHash,
         email: req.body.email,
         avatarUrl: req.body.avatarUrl,
         isAdmin: req.body.isAdmin
     });
-    res.send({ message: "User created successfully" });
+    res.send({ message: "User created successfully", user });
 });
 
 // Create a new column
