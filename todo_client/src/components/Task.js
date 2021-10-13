@@ -25,7 +25,10 @@ const Task = ({ task }) => {
         <div className="task">
             <h3 className="font-bold text-lg">{task.title}</h3>
             <h4>{task.description}</h4>
-            User: {task.userId}
+            <div className="mx-0 flex flex-row items-center">
+                <img className="w-8" src={user.avatarUrl}/>
+                {user.name}
+            </div>
             <div className="flex flex-row justify-end">
                 <button
                     className="delete-button submit"
