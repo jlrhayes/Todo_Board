@@ -40,6 +40,15 @@ const Column = ({ column , onDelete}) => {
         ];
     };
 
+    const deleteTask = async (id) => {
+        const requestOptions = { method: "DELETE" };
+        await fetch(
+            `http://localhost:4000/tasks/${id}`,
+            requestOptions
+        );
+        getTasks();
+    };
+
     const editColumn = () => {
         console.log("edited");
     };
@@ -64,7 +73,8 @@ const Column = ({ column , onDelete}) => {
                 </div>
             </div>
             {tasks.map((task) => (
-                <Task className="task" key={task.id} task={task} />
+                <Task className="task" key={task.id} task={task} 
+                deleteTask={() => deleteTask(task.id)} />
             ))}
             <AddTask onAdd={addTask} users={getUsers()}></AddTask>
         </div>
