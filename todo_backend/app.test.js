@@ -20,15 +20,26 @@ describe("GET all boards", () => {
 });
 
 // getting all the users
-describe("GET all users", () => {
-  test("/users works", () => {
+describe("/users works", () => {
+  test("GET all users", () => {
     return request(app)
       .get("/users")
       .then((response) => {
         expect(response.statusCode).toBe(200);
       });
   });
+
+  test("get user by ID", async () => {
+      // Trying to get a user which doesn't exist => 404
+      const notFoundResponse = await request(app).get("/users/100");
+      expect(notFoundResponse.statusCode).toBe(404);
+
+      // Trying to get a user which does exist => 200
+      const okResponse = await request(app).get("/users/1");
+      expect(okResponse.statusCode).toBe(200);
+  });
 });
+
 
 // ------------------------------------------------------------
 
