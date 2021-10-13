@@ -3,7 +3,7 @@ import "./Task.css";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
-const Task = ({ task }) => {
+const Task = ({ task, deleteTask }) => {
     //need to find tasks under column id and add to task list
     const [user, setUser] = useState([]);
 
@@ -17,10 +17,6 @@ const Task = ({ task }) => {
           .then((data) => setUser(data))
     };
 
-    async function deleteTask(id) {}
-
-    function editTask() {}
-
     return (
         <div className="task">
             <h3 className="font-bold text-lg">{task.title}</h3>
@@ -32,16 +28,16 @@ const Task = ({ task }) => {
             <div className="flex flex-row justify-end">
                 <button
                     className="delete-button submit"
-                    onClick={deleteTask(task.id)}
+                    onClick={deleteTask}
                 >
                     <DeleteIcon fontSize="small" />
                 </button>
-                <button
+                {/*<button
                     className="delete-button submit"
                     onClick={editTask(task.id)}
                 >
                     <EditIcon fontSize="small" />
-                </button>
+                </button>*/}
             </div>
         </div>
     );
