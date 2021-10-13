@@ -137,9 +137,11 @@ app.get("/boards/:boardId/columns/:id/tasks", async (req, res) => {
 //Delete a board
 app.delete("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
+    console.log(req.params.id)
     const board = await Board.findByPk(req.params.id);
     if (checkBoardExists(board, req.params.id, res)) {
-      Task.destroy({
+      
+      Board.destroy({
         where: {
           id: req.params.id,
         },

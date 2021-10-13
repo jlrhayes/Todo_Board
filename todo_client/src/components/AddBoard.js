@@ -8,6 +8,7 @@ const AddBoard = ({onAdd}) => {
       
     
     const onSubmit = (e) =>{
+        console.log(e)
         e.preventDefault()
         if (!title){
             alert('Please type text')
@@ -18,17 +19,9 @@ const AddBoard = ({onAdd}) => {
         setTitle('')
     }
 
-    const updateTitle = (e) => {
-        setTitle(e.target.value)
-    }
-
-
     return (
             <div>
-                <ModalComponent input = {{ type : 'text', placeholder : 'Board Name', value : {title}, onChange : {updateTitle}}}  onSubmit = {onSubmit}/>
-                    <form onSubmit = {onSubmit} >
-                        <input type = "text" placeholder = "Board Name" value = {title}  onChange = {(e) => setTitle(e.target.value)}/>
-                    </form>
+                <ModalComponent input = {{ type : 'text', placeholder : 'Board Name' , onChange : function (e){setTitle(e)}}}  onSubmit = {onSubmit} modalText = 'Add a new Board'/>
             </div>
     )
 }
