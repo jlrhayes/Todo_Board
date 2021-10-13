@@ -21,8 +21,8 @@ export default class AddTask extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const task = this.state;
-        this.props.onAdd(task);
+        const { title, description } = this.state;
+        this.props.onAdd({ title, description });
         this.setState({ submitted: true });
     }
 

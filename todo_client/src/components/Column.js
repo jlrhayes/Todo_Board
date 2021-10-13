@@ -13,20 +13,21 @@ const Column = ({ column , onDelete}) => {
       }, []);
 
     const addTask = async (newTask) => {
+        newTask["columnId"] = column.id;
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newTask),
         };
         await fetch(
-            `http://localhost:4000/tasks/${column.id}`,
+            `http://localhost:4000/tasks`,
             requestOptions
         );
         getTasks();
     };
 
     const getTasks = () => {
-        fetch(`http://localhost:4000/boards/${column.boardId}/columns/${column.id}`)
+        fetch(`http://localhost:4000/columns/${column.id}/tasks`)
             .then((res) => res.json())
             .then((data) => setTasks(data))
             .catch((e) => console.log(e));
