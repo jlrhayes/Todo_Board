@@ -93,12 +93,12 @@ app.get("/users", async (req, res) => {
 //Get user by id
 app.get("/users/:id", async (req, res) => {
   const user = await User.findByPk(req.params.id);
-  if (user.length === 0 || user === null) {
-    res.status(404).send({
+  if (!user) {
+    return res.status(404).send({
       message: `No users found`,
     });
   }
-  res.json(user);
+  return res.json(user);
 });
 
 //Get all columns of a board
@@ -256,14 +256,14 @@ const userValidation = {
 app.post("/users",
     validate(userValidation, {}, {}),
     async (req, res) => {
-    await User.create({
+    const user = await User.create({
         name: req.body.name,
         passwordHash: req.body.passwordHash,
         email: req.body.email,
         avatarUrl: req.body.avatarUrl,
         isAdmin: req.body.isAdmin
     });
-    res.send({ message: "User created successfully" });
+    res.send({ message: "User created successfully", user });
 });
 
 // Create a new column
