@@ -11,7 +11,11 @@ const Task = ({ task }) => {
         getUser();
     }, []);
 
-    const getUser = () => {};
+    const getUser = () => {
+        fetch(`http://localhost:4000/users/${task.userId}`)
+          .then((res) => res.json())
+          .then((data) => setUser(data))
+    };
 
     async function deleteTask(id) {}
 
