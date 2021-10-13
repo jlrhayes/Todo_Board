@@ -1,6 +1,9 @@
 :root {
     --background-yellow: #f8f4e5;
+    --background-beige: #f3edd6;
     --accent-orange: #f45702;
+    --accent-green: #32ae8e;
+    --accent-pink: #ffc4b6;
 }
 
 body {

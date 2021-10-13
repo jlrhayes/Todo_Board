@@ -1,4 +1,5 @@
 .board {
+  background-color: var(--background-beige);
   display: grid;
   column-gap : 20px;
   row-gap : 10px;
