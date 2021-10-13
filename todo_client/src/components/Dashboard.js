@@ -37,7 +37,7 @@ const Dashboard = () => {
 
     return (
         
-        <div className="flex flex-col items-center p-8 dash">
+        <div className="mx-auto flex flex-col justify-center items-center p-8 dash">
             <label className="text-xl font-bold mb-4">Dashboard</label>
             <AddBoard onAdd = {addBoard}></AddBoard>
             <div className="w-full grid grid-cols-3 lg:grid-cols-4">
