@@ -14,7 +14,7 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-const ModalComponent = ({input,onSubmit,modalText}) => {
+const ModalComponent = ({inputs,onSubmit,modalText}) => {
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -38,7 +38,7 @@ const ModalComponent = ({input,onSubmit,modalText}) => {
         onSubmit ={closeModal}
       >
         <form onSubmit = {(e) => {onSubmit(e); closeModal()}}>
-          <input type = {input.type} placeholder = {input.placeholder} onChange = {(e) => {input.onChange(e.target.value)}} />
+          {inputs.map((input) => (<input type = {input.type} placeholder = {input.placeholder} onChange = {(e) => {input.onChange(e.target.value)}} />))}
         </form>
       </Modal>
     </div>

@@ -1,6 +1,5 @@
 import React,{useState} from 'react'
 import ModalComponent from './ModalComponent'
-import Modal from 'react-modal';
 
 const AddBoard = ({onAdd}) => {
     const [title,setTitle] = useState('')
@@ -18,10 +17,14 @@ const AddBoard = ({onAdd}) => {
 
         setTitle('')
     }
-
+    //inputs takes an array of objects for each input for the modal 
+    //{type : {input type}, placeholder: {placeholder} , onChange : {function to change value}}
     return (
             <div>
-                <ModalComponent input = {{ type : 'text', placeholder : 'Board Name' , onChange : function (e){setTitle(e)}}}  onSubmit = {onSubmit} modalText = 'Add a new Board'/>
+                <ModalComponent inputs = {[
+                    { type : 'text', placeholder : 'Board Name' , onChange : function (e){setTitle(e)}},
+                    ]}  
+                    onSubmit = {onSubmit} modalText = 'Add a new Board'/> 
             </div>
     )
 }
