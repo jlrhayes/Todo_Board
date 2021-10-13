@@ -20,22 +20,14 @@ const Column = ({ column , onDelete}) => {
             body: JSON.stringify(newTask),
         };
         await fetch(
-<<<<<<< HEAD
-            `http://localhost:4000/tasks`,
-=======
             `http://localhost:4000/boards/${column.boardId}/columns/${column.id}/tasks`,
->>>>>>> modal
             requestOptions
         );
         getTasks();
     };
 
     const getTasks = () => {
-<<<<<<< HEAD
-        fetch(`http://localhost:4000/columns/${column.id}/tasks`)
-=======
         fetch(`http://localhost:4000/boards/${column.boardId}/columns/${column.id}/tasks`)
->>>>>>> modal
             .then((res) => res.json())
             .then((data) => setTasks(data))
             .catch((e) => console.log(e));

@@ -4,7 +4,6 @@
     --accent-orange: #f45702;
     --accent-green: #32ae8e;
     --accent-pink: #ffc4b6;
-<<<<<<< HEAD
 }
 
 #root {
@@ -12,8 +11,6 @@
     position: absolute;
     overflow: scroll;
     top: 0;
-=======
->>>>>>> modal
 }
 
 body {
