@@ -6,6 +6,8 @@ const Board = require("./board");
 const Column = require("./column");
 const Task = require("./task");
 const sandbox = require("./sandbox");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const app = express();
 const cors = require("cors");
@@ -138,10 +140,9 @@ app.get("/boards/:boardId/columns/:id/tasks", async (req, res) => {
 //Delete a board
 app.delete("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
-    console.log(req.params.id)
+    console.log(req.params.id);
     const board = await Board.findByPk(req.params.id);
     if (checkBoardExists(board, req.params.id, res)) {
-      
       Board.destroy({
         where: {
           id: req.params.id,
@@ -245,27 +246,76 @@ app.post("/boards", async (req, res) => {
 });
 
 const userValidation = {
-    body: Joi.object({
-        name: Joi.string().required(),
-        passwordHash: Joi.string().required(),
-        email: Joi.string().required(),
-        avatarUrl: Joi.string().required(),
-        isAdmin: Joi.boolean().required()
-    }),
+  body: Joi.object({
+    name: Joi.string().required(),
+    passwordHash: Joi.string().required(),
+    email: Joi.string().required(),
+    avatarUrl: Joi.string().required(),
+    isAdmin: Joi.boolean().required(),
+  }),
 };
 
 // Create a new user
-app.post("/users",
-    validate(userValidation, {}, {}),
-    async (req, res) => {
-    const user = await User.create({
-        name: req.body.name,
-        passwordHash: req.body.passwordHash,
-        email: req.body.email,
-        avatarUrl: req.body.avatarUrl,
-        isAdmin: req.body.isAdmin
+app.post("/users", validate(userValidation, {}, {}), async (req, res) => {
+  const { name, email, password, avatarUrl, isAdmin } = req.body;
+  //Check if name exists (case insenitive)
+  const user = await User.findOne({
+    where: {
+      name: sequelize.where(
+        sequelize.fn("LOWER", sequelize.col("name")),
+        "LIKE",
+        "%" + name.toLowerCase() + "%"
+      ),
+    },
+  });
+  if (user) {
+    res
+      .status(400)
+      .send({ message: `User with name '${name}' already exists.` });
+  } else {
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      bcrypt.hash(password, salt, async function (err, hash) {
+        await User.create({
+          name: name,
+          passwordHash: hash,
+          email: email,
+          avatarUrl: avatarUrl,
+          isAdmin: isAdmin,
+        });
+        res.send({ message: "User created successfully" });
+      });
     });
-    res.send({ message: "User created successfully", user });
+  }
+});
+
+//login
+app.post("/users/login", async (req, res) => {
+  const { name, password } = req.body;
+  const user = await User.findOne({
+    where: {
+      name: sequelize.where(
+        sequelize.fn("LOWER", sequelize.col("name")),
+        "LIKE",
+        "%" + name.toLowerCase() + "%"
+      ),
+    },
+  });
+  if (user) {
+    bcrypt.compare(password, user.passwordHash, function (err, result) {
+      console.log(user.hash);
+      // Compare
+      // if passwords match
+      if (result) {
+        res.send({ message: "Password correct" });
+      }
+      // if passwords do not match
+      else {
+        res.status(400).send({ message: "Password incorrect" });
+      }
+    });
+  } else {
+    res.status(400).send({ message: `No user with the name '${name}' found.` });
+  }
 });
 
 // Create a new column
@@ -310,10 +360,10 @@ app.post("/boards/:boardId/columns/:columnId/tasks", async (req, res) => {
 });
 
 app.use(function (err, req, res, next) {
-    if (err instanceof ValidationError) {
-        return res.status(err.statusCode).json(err);
-    }
-    return res.status(500).json(err);
+  if (err instanceof ValidationError) {
+    return res.status(err.statusCode).json(err);
+  }
+  return res.status(500).json(err);
 });
 
 module.exports = app;
