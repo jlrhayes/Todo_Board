@@ -20,13 +20,8 @@ describe("GET all boards", () => {
 });
 
 // getting all the users
-<<<<<<< HEAD
 describe("/users works", () => {
   test("GET all users", () => {
-=======
-describe("GET all users", () => {
-  test("/users works", () => {
->>>>>>> modal
     return request(app)
       .get("/users")
       .then((response) => {
