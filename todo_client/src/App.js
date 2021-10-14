@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
@@ -8,26 +8,43 @@ import Dashboard from "./components/Dashboard";
 import Board from "./components/Board";
 
 function App() {
-  const [userId, setUserId] = useState();
-  //need to move this into board dashboard
+  const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
+    const token = localStorage.getItem("token");
+    return (
+      <Route
+        path={path}
+        {...rest}
+        render={(props) => {
+          return token ? (
+            <Comp {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: {
+                  prevLocation: path,
+                  error: "You need to login first!",
+                },
+              }}
+            />
+          );
+        }}
+      />
+    );
+  };
 
   return (
     <BrowserRouter>
       <NavBar />
+
       <Route exact path="/">
         <Redirect to="/boards" />
       </Route>
-      <Route render={() => <Dashboard />} path="/boards" exact />
+      <ProtectedRoute path="/boards" component={Dashboard} />
       <Switch>
-        <Route path="/boards/:id">
-          <Board />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
+        <ProtectedRoute path="/boards/:id" component={Board} />
+        <Route render={() => <Login />} path="/login" />
+        <Route render={() => <Register />} path="/register" />
       </Switch>
     </BrowserRouter>
   );

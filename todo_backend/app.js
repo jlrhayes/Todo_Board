@@ -8,6 +8,7 @@ const Task = require("./task");
 const sandbox = require("./sandbox");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const isImageUrl = require("is-image-url");
 
 const app = express();
 const cors = require("cors");
@@ -248,7 +249,7 @@ app.post("/boards", async (req, res) => {
 const userValidation = {
   body: Joi.object({
     name: Joi.string().required(),
-    passwordHash: Joi.string().required(),
+    password: Joi.string().required(),
     email: Joi.string().required(),
     avatarUrl: Joi.string().required(),
     isAdmin: Joi.boolean().required(),
@@ -258,33 +259,45 @@ const userValidation = {
 // Create a new user
 app.post("/users", validate(userValidation, {}, {}), async (req, res) => {
   const { name, email, password, avatarUrl, isAdmin } = req.body;
-  //Check if name exists (case insenitive)
-  const user = await User.findOne({
-    where: {
-      name: sequelize.where(
-        sequelize.fn("LOWER", sequelize.col("name")),
-        "LIKE",
-        "%" + name.toLowerCase() + "%"
-      ),
-    },
-  });
-  if (user) {
-    res
-      .status(400)
-      .send({ message: `User with name '${name}' already exists.` });
-  } else {
-    bcrypt.genSalt(saltRounds, function (err, salt) {
-      bcrypt.hash(password, salt, async function (err, hash) {
-        await User.create({
-          name: name,
-          passwordHash: hash,
-          email: email,
-          avatarUrl: avatarUrl,
-          isAdmin: isAdmin,
-        });
-        res.send({ message: "User created successfully" });
-      });
+  if (isImageUrl(avatarUrl)) {
+    //Check if name exists (case insenitive)
+    const user = await User.findOne({
+      where: {
+        name: sequelize.where(
+          sequelize.fn("LOWER", sequelize.col("name")),
+          "LIKE",
+          "%" + name.toLowerCase() + "%"
+        ),
+      },
     });
+    if (user) {
+      res
+        .status(400)
+        .send({ message: `User with name '${name}' already exists.` });
+    } else {
+      if (password.length < 6) {
+        res.status(400).send({
+          message: `Please enter a password with a length of 6 characters or more.`,
+        });
+      } else {
+        bcrypt.genSalt(saltRounds, function (err, salt) {
+          bcrypt.hash(password, salt, async function (err, hash) {
+            await User.create({
+              name: name,
+              passwordHash: hash,
+              email: email,
+              avatarUrl: avatarUrl,
+              isAdmin: isAdmin,
+            });
+            res.send({
+              token: "testToken",
+            });
+          });
+        });
+      }
+    }
+  } else {
+    res.status(400).send({ message: `Please pass a valid logo url.` });
   }
 });
 
@@ -300,21 +313,30 @@ app.post("/users/login", async (req, res) => {
       ),
     },
   });
-  if (user) {
-    bcrypt.compare(password, user.passwordHash, function (err, result) {
-      console.log(user.hash);
-      // Compare
-      // if passwords match
-      if (result) {
-        res.send({ message: "Password correct" });
-      }
-      // if passwords do not match
-      else {
-        res.status(400).send({ message: "Password incorrect" });
-      }
+  if (password.length < 6) {
+    res.status(400).send({
+      message: `Please enter a password with a length of 6 characters or more.`,
     });
   } else {
-    res.status(400).send({ message: `No user with the name '${name}' found.` });
+    if (user) {
+      bcrypt.compare(password, user.passwordHash, function (err, result) {
+        // Compare
+        // if passwords match
+        if (result) {
+          res.send({
+            token: "testToken",
+          });
+        }
+        // if passwords do not match
+        else {
+          res.status(400).send({ message: "Password incorrect" });
+        }
+      });
+    } else {
+      res
+        .status(400)
+        .send({ message: `No user with the name '${name}' found.` });
+    }
   }
 });
 

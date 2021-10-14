@@ -20,13 +20,8 @@ describe("GET all boards", () => {
 });
 
 // getting all the users
-<<<<<<< HEAD
-describe("/users works", () => {
-  test("GET all users", () => {
-=======
 describe("GET all users", () => {
   test("/users works", () => {
->>>>>>> modal
     return request(app)
       .get("/users")
       .then((response) => {
@@ -43,7 +38,6 @@ describe("GET all users", () => {
     const okResponse = await request(app).get("/users/1");
     expect(okResponse.statusCode).toBe(200);
   });
-
 });
 
 // ------------------------------------------------------------
