@@ -9,16 +9,29 @@ const Board = () => {
   const boardId = window.location.pathname;
   const [columns, setColumns] = useState([]);
 
+
   React.useEffect(() => {
     //gets board data
     getColumnData();
   }, []);
 
-  const addColumn = async (newColumn) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newColumn),
+
+    React.useEffect(() => {
+        //gets board data
+        getColumnData();
+    }, []);
+
+    const addColumn = async (newColumn) => {
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newColumn),
+        };
+        await fetch(
+            "http://localhost:4000" + boardId + "/columns/",
+            requestOptions
+        );
+        getColumnData();
     };
     await fetch(
       "http://localhost:4000" + boardId + "/columns/",
@@ -27,20 +40,38 @@ const Board = () => {
     getColumnData();
   };
 
-  const getColumnData = () => {
-    fetch("http://localhost:4000" + boardId + "/columns/")
-      .then((res) => res.json())
-      .then((data) => setColumns(data));
-  };
 
-  const deleteColumn = async (id) => {
-    const requestOptions = {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+    const getColumnData = () => {
+        fetch("http://localhost:4000" + boardId + "/columns/")
+            .then((res) => res.json())
+            .then((data) => setColumns(data));
     };
-    await fetch(
-      "http://localhost:4000" + boardId + "/columns/" + id,
-      requestOptions
+
+    const deleteColumn = async (id) => {
+        const requestOptions = {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        };
+        await fetch(
+            "http://localhost:4000" + boardId + "/columns/" + id,
+            requestOptions
+        );
+        getColumnData();
+    };
+
+    return (
+        <div className="board board-md board-lg">
+            {columns.map((column) => (
+                <Column
+                    className="column"
+                    key={column.id}
+                    column={column}
+                    onEdit={() => getColumnData()}
+                    onDelete={() => deleteColumn(column.id)}
+                />
+            ))}
+            <AddColumn onAdd={addColumn} placeholder="Column Name"></AddColumn>
+        </div>
     );
     getColumnData();
   };

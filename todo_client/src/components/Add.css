@@ -1,0 +1,12 @@
+.add-button {
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-button:hover {
+    background-color: var(--accent-pink);
+}
+

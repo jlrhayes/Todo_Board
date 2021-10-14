@@ -85,7 +85,7 @@ app.get("/boards", async (req, res) => {
 //Get all users
 app.get("/users", async (req, res) => {
   const users = await User.findAll();
-  if (users.length === 0 || users === null) {
+  if (users === null || users.length === 0) {
     res.status(404).send({
       message: `No users found`,
     });
@@ -96,12 +96,12 @@ app.get("/users", async (req, res) => {
 //Get user by id
 app.get("/users/:id", async (req, res) => {
   const user = await User.findByPk(req.params.id);
-  if (user.length === 0 || user === null) {
-    res.status(404).send({
+  if (!user) {
+    return res.status(404).send({
       message: `No users found`,
     });
   }
-  res.json(user);
+  return res.json(user);
 });
 
 //Get all columns of a board
@@ -122,7 +122,7 @@ app.get("/boards/:id/columns", async (req, res) => {
 });
 
 //Get all tasks of a column
-app.get("/boards/:boardId/columns/:id/tasks", async (req, res) => {
+app.get("/columns/:id/tasks", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const column = await Column.findByPk(req.params.id);
     if (checkColumnExists(column, req.params.id, res)) {
@@ -141,7 +141,6 @@ app.get("/boards/:boardId/columns/:id/tasks", async (req, res) => {
 //Delete a board
 app.delete("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
-    console.log(req.params.id);
     const board = await Board.findByPk(req.params.id);
     if (checkBoardExists(board, req.params.id, res)) {
       Board.destroy({
@@ -361,19 +360,19 @@ app.post("/boards/:boardId/columns/", async (req, res) => {
 });
 
 // Create a new task
-app.post("/boards/:boardId/columns/:columnId/tasks", async (req, res) => {
-  if (checkIdValid(req.params.columnId, res)) {
+app.post("/tasks", async (req, res) => {
+  if (checkIdValid(req.body.columnId, res)) {
     if (!req.body.title) {
       res.status(400).send({
         message: `Please pass a valid title`,
       });
     } else {
-      const column = await Column.findByPk(req.params.columnId);
-      if (checkColumnExists(column, req.params.columnId, res)) {
+      const column = await Column.findByPk(req.body.columnId);
+      if (checkColumnExists(column, req.body.columnId, res)) {
         await Task.create({
           title: req.body.title,
           description: req.body.description,
-          columnId: req.params.columnId,
+          columnId: req.body.columnId,
         });
         res.send({ message: "Task created successfully" });
       }

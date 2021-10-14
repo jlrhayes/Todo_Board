@@ -5,6 +5,7 @@ export default class AddTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            users: [],
             title: "",
             description: "",
             userId: 1,
@@ -12,6 +13,13 @@ export default class AddTask extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+   }
+
+    componentDidMount() {
+        fetch(`http://localhost:4000/users`)
+            .then((res) => res.json())
+            .then((users) => this.handleChange(this.setState({ users })))
+            .catch((e) => console.log(e));
     }
 
     handleChange(event) {
@@ -21,14 +29,14 @@ export default class AddTask extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, description } = this.state;
-        this.props.onAdd({ title, description });
+        const { title, description, userId, columnId } = this.state;
+        this.props.onAdd({ title, description, userId });
         this.setState({ submitted: true });
     }
 
     render() {
         const { title, description, userId } = this.state;
-
+ 
         return (
             <div className="task-form form-wrapper">
                 <h2 className="font-bold text-xl mx-2">New Task</h2>
@@ -61,7 +69,7 @@ export default class AddTask extends React.Component {
                             type="select"
                             onChange={this.handleChange}
                         >
-                            {this.props.users.map((availableUser) => (
+                            {this.state.users.map((availableUser) => (
                                 <option value={availableUser.id}>
                                     {availableUser.name}
                                 </option>

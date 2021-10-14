@@ -20,8 +20,8 @@ describe("GET all boards", () => {
 });
 
 // getting all the users
-describe("GET all users", () => {
-  test("/users works", () => {
+describe("/users works", () => {
+  test("GET all users", () => {
     return request(app)
       .get("/users")
       .then((response) => {
