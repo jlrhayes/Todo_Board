@@ -45,9 +45,6 @@ const Board = () => {
                 <Column className="column" key={column.id} column={column} onDelete = {() => deleteColumn(column.id)} />
             ))}
             <AddColumn onAdd={addColumn} placeholder="Column Name"></AddColumn>
-            <Link to = '/boards'>
-                <button>Return to Dashboard</button>
-            </Link>
         </div>
     );
 };

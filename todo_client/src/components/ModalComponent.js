@@ -30,7 +30,7 @@ const ModalComponent = ({inputs,onSubmit,modalText}) => {
 
   return (
     <div>
-      <button onClick={openModal}>{modalText}</button>
+      <button className="p-4" onClick={openModal}>{modalText}</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

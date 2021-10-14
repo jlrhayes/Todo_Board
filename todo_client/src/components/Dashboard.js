@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import AddBoard from "./AddBoard"
 import BoardButton from "./BoardButton"
 
-
 const Dashboard = () => {
     //need to move this into board dashboard
     const [boards, setBoards] = useState([])
@@ -38,14 +37,14 @@ const Dashboard = () => {
 
     return (
         
-        <div className = "dash">
-            <label>Dashboard</label>
-            <div>
+        <div className="mx-auto flex flex-col justify-center items-center p-8 dash">
+            <label className="text-xl font-bold mb-4">Dashboard</label>
+            <AddBoard onAdd = {addBoard}></AddBoard>
+            <div className="w-full grid grid-cols-3 lg:grid-cols-4">
                 {boards.length > 0 ? boards.map((board) => (
                 <BoardButton key = {board.id} board = {board} link = {"/boards/" + board.id} onDelete = {deleteBoard} />
                 )) : 'There are no boards'}
             </div>
-            <AddBoard onAdd = {addBoard}></AddBoard>
         </div>
     )
 }
