@@ -20,24 +20,17 @@ const Column = ({ column , onDelete}) => {
             body: JSON.stringify(newTask),
         };
         await fetch(
-            `http://localhost:4000/boards/${column.boardId}/columns/${column.id}/tasks`,
+            `http://localhost:4000/tasks`,
             requestOptions
         );
         getTasks();
     };
 
     const getTasks = () => {
-        fetch(`http://localhost:4000/boards/${column.boardId}/columns/${column.id}/tasks`)
+        fetch(`http://localhost:4000/columns/${column.id}/tasks`)
             .then((res) => res.json())
             .then((data) => setTasks(data))
             .catch((e) => console.log(e));
-    };
-
-    const getUsers = () => {
-        return [
-            { name: "bob", id: 1 },
-            { name: "emily", id: 2 },
-        ];
     };
 
     const deleteTask = async (id) => {
@@ -76,7 +69,7 @@ const Column = ({ column , onDelete}) => {
                 <Task className="task" key={task.id} task={task} 
                 deleteTask={() => deleteTask(task.id)} />
             ))}
-            <AddTask onAdd={addTask} users={getUsers()}></AddTask>
+            <AddTask onAdd={addTask}></AddTask>
         </div>
     );
 };
