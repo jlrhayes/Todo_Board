@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Task.css";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import AddTask from "./AddTask";
+import EditTask from "./EditTask";
 
 const Task = ({ task, deleteTask, onEdit }) => {
     //need to find tasks under column id and add to task list
@@ -36,7 +36,7 @@ const Task = ({ task, deleteTask, onEdit }) => {
     return (
         <div className="task">
             {edit ? (
-                <AddTask onAdd={editTask} heading={"Edit Task"} />
+                <EditTask onAdd={editTask} task={task} />
             ) : (
                 <TaskDetails task={task} user={user} />
             )}
