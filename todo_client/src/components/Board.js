@@ -2,12 +2,19 @@ import Column from "./Column";
 import AddColumn from "./AddColumn";
 import React, { useState } from "react";
 import "./Board.css";
+import { Link } from "react-router-dom";
 
 const Board = () => {
-    //need to move this into board dashboard
-    const boardId = window.location.pathname;
+  //need to move this into board dashboard
+  const boardId = window.location.pathname;
+  const [columns, setColumns] = useState([]);
 
-    const [columns, setColumns] = useState([]);
+
+  React.useEffect(() => {
+    //gets board data
+    getColumnData();
+  }, []);
+
 
     React.useEffect(() => {
         //gets board data
@@ -26,6 +33,13 @@ const Board = () => {
         );
         getColumnData();
     };
+    await fetch(
+      "http://localhost:4000" + boardId + "/columns/",
+      requestOptions
+    );
+    getColumnData();
+  };
+
 
     const getColumnData = () => {
         fetch("http://localhost:4000" + boardId + "/columns/")
@@ -59,6 +73,25 @@ const Board = () => {
             <AddColumn onAdd={addColumn} placeholder="Column Name"></AddColumn>
         </div>
     );
+    getColumnData();
+  };
+
+  return (
+    <div className="board board-md board-lg">
+      {columns.map((column) => (
+        <Column
+          className="column"
+          key={column.id}
+          column={column}
+          onDelete={() => deleteColumn(column.id)}
+        />
+      ))}
+      <AddColumn onAdd={addColumn} placeholder="Column Name"></AddColumn>
+      <Link to="/boards">
+        <button>Return to Dashboard</button>
+      </Link>
+    </div>
+  );
 };
 
 export default Board;

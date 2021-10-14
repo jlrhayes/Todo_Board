@@ -38,7 +38,6 @@ describe("/users works", () => {
     const okResponse = await request(app).get("/users/1");
     expect(okResponse.statusCode).toBe(200);
   });
-
 });
 
 // ------------------------------------------------------------

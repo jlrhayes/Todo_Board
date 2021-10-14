@@ -10,9 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-validation": "^3.0.8",
+    "is-image-url": "^1.1.8",
     "jest": "^27.2.5",
     "sequelize": "^6.7.0",
     "sqlite3": "^5.0.2",
