@@ -364,20 +364,28 @@ app.post("/boards/:boardId/columns/", async (req, res) => {
 app.post("/tasks", async (req, res) => {
   if (checkIdValid(req.body.columnId, res)) {
     if (!req.body.title) {
-      res.status(400).send({
+      return res.status(400).send({
         message: `Please pass a valid title`,
       });
-    } else {
-      const column = await Column.findByPk(req.body.columnId);
-      if (checkColumnExists(column, req.body.columnId, res)) {
-        const task = await Task.create({
-          title: req.body.title,
-          description: req.body.description,
-          columnId: req.body.columnId,
-        });
-        res.send({ task, message: "Task created successfully" });
-      }
     }
+    const column = await Column.findByPk(req.body.columnId);
+    if (!checkColumnExists(column, req.body.columnId, res)) {
+        return;
+    }
+    const userId = req.body.userId;
+    if (userId) {
+      const user = await User.findByPk(req.body.userId);
+        if (!user) {
+          return res.status(404).send({message: `No user ${req.body.userId}`});
+        }
+    }
+    const task = await Task.create({
+      title: req.body.title,
+      description: req.body.description,
+      columnId: req.body.columnId,
+      userId: req.body.userId
+    });
+    res.send({ task, message: "Task created successfully" });
   }
 });
 

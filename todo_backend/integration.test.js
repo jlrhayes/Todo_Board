@@ -35,3 +35,15 @@ test("POST new task with user", async () => {
   const task = await Task.findOne({ where: { id: taskId } });
   expect(task.userId).toBeTruthy();
 });
+
+test("POST new task without user", async () => {
+  const sentData = {
+    title: "task_title",
+    description: "description",
+    columnId: 2,
+  };
+  const response = await request(app).post("/tasks").send(sentData);
+  const taskId = response.body.task.id;
+  const task = await Task.findOne({ where: { id: taskId } });
+  expect(task).toBeInstanceOf(Task);
+});
