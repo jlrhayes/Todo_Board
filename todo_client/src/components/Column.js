@@ -81,10 +81,11 @@ const Column = ({ column, onDelete, onEdit }) => {
                     className="task"
                     key={task.id}
                     task={task}
+                    onEdit={() => getTasks()}
                     deleteTask={() => deleteTask(task.id)}
                 />
             ))}
-            <AddTask onAdd={addTask}></AddTask>
+            <AddTask heading={"New Task"} onAdd={addTask}></AddTask>
         </div>
     );
 };

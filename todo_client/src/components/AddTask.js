@@ -13,7 +13,7 @@ export default class AddTask extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-   }
+    }
 
     componentDidMount() {
         fetch(`http://localhost:4000/users`)
@@ -30,16 +30,16 @@ export default class AddTask extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const { title, description, userId, columnId } = this.state;
-        this.props.onAdd({ title, description, userId });
+        this.props.onAdd({ title, description, userId, columnId });
         this.setState({ submitted: true });
     }
 
     render() {
         const { title, description, userId } = this.state;
- 
+
         return (
             <div className="task-form form-wrapper">
-                <h2 className="font-bold text-xl mx-2">New Task</h2>
+                <h2 className="font-bold text-xl">{this.props.heading}</h2>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Task:
