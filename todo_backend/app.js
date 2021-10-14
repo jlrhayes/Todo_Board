@@ -281,7 +281,7 @@ app.post("/users", validate(userValidation, {}, {}), async (req, res) => {
       } else {
         bcrypt.genSalt(saltRounds, function (err, salt) {
           bcrypt.hash(password, salt, async function (err, hash) {
-            await User.create({
+            const user = await User.create({
               name: name,
               passwordHash: hash,
               email: email,
@@ -290,6 +290,7 @@ app.post("/users", validate(userValidation, {}, {}), async (req, res) => {
             });
             res.send({
               token: "testToken",
+              user
             });
           });
         });
@@ -369,12 +370,12 @@ app.post("/tasks", async (req, res) => {
     } else {
       const column = await Column.findByPk(req.body.columnId);
       if (checkColumnExists(column, req.body.columnId, res)) {
-        await Task.create({
+        const task = await Task.create({
           title: req.body.title,
           description: req.body.description,
           columnId: req.body.columnId,
         });
-        res.send({ message: "Task created successfully" });
+        res.send({ task, message: "Task created successfully" });
       }
     }
   }
