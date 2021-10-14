@@ -40,9 +40,9 @@ function App() {
       <Route exact path="/">
         <Redirect to="/boards" />
       </Route>
-      <ProtectedRoute path="/boards" component={Dashboard} />
       <Switch>
         <ProtectedRoute path="/boards/:id" component={Board} />
+        <ProtectedRoute path="/boards" component={Dashboard} />
         <Route render={() => <Login />} path="/login" />
         <Route render={() => <Register />} path="/register" />
       </Switch>
