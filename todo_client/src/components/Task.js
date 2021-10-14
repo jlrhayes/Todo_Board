@@ -1,21 +1,34 @@
 import React, { useState } from "react";
+//import {useDrag} from 'react-dnd'
 import "./Task.css";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
+//import { ItemTypes } from './Constants'
+//import EditIcon from "@material-ui/icons/Edit";
 
-const Task = ({ task, deleteTask }) => {
+const Task = ({ task, deleteTask, allColumns, changeColumn }) => {
     //need to find tasks under column id and add to task list
     const [user, setUser] = useState([]);
 
     React.useEffect(() => {
         getUser();
-    }, []);
+    },[]);
 
     const getUser = () => {
         fetch(`http://localhost:4000/users/${task.userId}`)
           .then((res) => res.json())
           .then((data) => setUser(data))
     };
+
+    // const [{ opacity }, dragRef] = useDrag(
+    //     () => ({
+    //       type: ItemTypes.Task,
+    //       item: { text },
+    //       collect: (monitor) => ({
+    //         opacity: monitor.isDragging() ? 0.5 : 1
+    //       })
+    //     }),
+    //     []
+    //   )
 
     return (
         <div className="task">
@@ -39,6 +52,18 @@ const Task = ({ task, deleteTask }) => {
                     <EditIcon fontSize="small" />
                 </button>*/}
             </div>
+                <select
+                    name="columnId"
+                    value={task.columnId}
+                    type="select"
+                    onChange = {(e) => changeColumn(e.target.value)}
+                >
+                    {allColumns.map((column) => (
+                        <option value={column.id}>
+                            {column.title}
+                        </option>
+                    ))}
+                </select>
         </div>
     );
 };

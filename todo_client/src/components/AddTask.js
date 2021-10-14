@@ -29,7 +29,7 @@ export default class AddTask extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, description, userId, columnId } = this.state;
+        const { title, description, userId, columnId} = this.state;
         this.props.onAdd({ title, description, userId });
         this.setState({ submitted: true });
     }
