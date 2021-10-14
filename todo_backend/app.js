@@ -184,15 +184,15 @@ app.delete("/tasks/:id", async (req, res) => {
 //Update column name
 app.patch("/columns/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
-    if (!req.body.name) {
-      res.status(400).send({
+    if (!req.body.title) {
+      return res.status(400).send({
         message: `Please pass a valid name`,
       });
     } else {
       const column = await Column.findByPk(req.params.id);
       if (checkColumnExists(column, req.params.id, res)) {
-        column.update({ name: req.body.name });
-        res.send({ message: "Column updated successfully" });
+        await column.update({ title: req.body.title});
+        return res.send({ message: "Column updated successfully", column });
       }
     }
   }
