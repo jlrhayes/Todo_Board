@@ -154,7 +154,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -164,7 +164,7 @@
 
             
 
-            <td class="description last"><description></td>
+            <td class="description last"><p>A callback to run upon form submit.</p></td>
         </tr>
 
     
@@ -271,7 +271,7 @@
 
 
 <div class="description">
-    <p>An AdColumn component that returns a form.</p>
+    <p>An AddColumn component that returns a form.</p>
 </div>
 
 
@@ -313,7 +313,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -323,7 +323,7 @@
 
             
 
-            <td class="description last"><description></td>
+            <td class="description last"><p>A callback to run upon form submit.</p></td>
         </tr>
 
     
@@ -336,7 +336,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -346,7 +346,7 @@
 
             
 
-            <td class="description last"><description></td>
+            <td class="description last"><p>A string to be displayed in the input field.</p></td>
         </tr>
 
     
@@ -416,7 +416,7 @@
 
         
 <div class="param-desc">
-    <p>a form</p>
+    <p>AddColumn - A form.</p>
 </div>
 
 
@@ -1671,7 +1671,7 @@ click on the home icon.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_NavBar.js.html">components/NavBar.js</a>, <a href="components_NavBar.js.html#line9">line 9</a>
+        <a href="components_NavBar.js.html">components/NavBar.js</a>, <a href="components_NavBar.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -1729,7 +1729,7 @@ click on the home icon.</p>
     
 
     
-    <h4 class="name" id="Task"><span class="type-signature"></span>Task<span class="signature">(deleteTask, task, onEdit)</span><span class="type-signature"> &rarr; {element}</span></h4>
+    <h4 class="name" id="Task"><span class="type-signature"></span>Task<span class="signature">(task, onDelete, onEdit)</span><span class="type-signature"> &rarr; {element}</span></h4>
     
 
     
@@ -1774,29 +1774,6 @@ It also allows the user to make HTTP requests.</p>
 
         <tr>
             
-                <td class="name"><code>deleteTask</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><description></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>task</code></td>
             
 
@@ -1813,7 +1790,30 @@ It also allows the user to make HTTP requests.</p>
 
             
 
-            <td class="description last"><description></td>
+            <td class="description last"><p>An object containing all the properties of a task.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onDelete</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Callback to be triggered when delete button is clicked.</p></td>
         </tr>
 
     
@@ -1826,7 +1826,7 @@ It also allows the user to make HTTP requests.</p>
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -1836,7 +1836,7 @@ It also allows the user to make HTTP requests.</p>
 
             
 
-            <td class="description last"><description></td>
+            <td class="description last"><p>Callback to be triggered when the edit button is clicked.</p></td>
         </tr>
 
     
@@ -1945,13 +1945,13 @@ It also allows the user to make HTTP requests.</p>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddTask.html">AddTask</a></li><li><a href="Login.html">Login</a></li><li><a href="Register.html">Register</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddBoard">AddBoard</a></li><li><a href="global.html#AddColumn">AddColumn</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Board">Board</a></li><li><a href="global.html#BoardButton">BoardButton</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Column">Column</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#ModalComponent">ModalComponent</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#Task">Task</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddTask.html">AddTask</a></li><li><a href="EditTask.html">EditTask</a></li><li><a href="Login.html">Login</a></li><li><a href="Register.html">Register</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddBoard">AddBoard</a></li><li><a href="global.html#AddColumn">AddColumn</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Board">Board</a></li><li><a href="global.html#BoardButton">BoardButton</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Column">Column</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#ModalComponent">ModalComponent</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#Task">Task</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Oct 15 2021 10:02:08 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Oct 15 2021 12:45:27 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
