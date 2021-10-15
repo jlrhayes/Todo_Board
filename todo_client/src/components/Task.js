@@ -34,26 +34,26 @@ const Task = ({ task, deleteTask, onEdit }) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(editedTask),
         };
-        await fetch(
-            `http://localhost:4000/tasks/${task.id}`,
-            requestOptions
-        );
+        await fetch(`http://localhost:4000/tasks/${task.id}`, requestOptions);
         onEdit();
         setShowEdit(false);
     };
 
     return (
-        <div className="task">
+        <div className="task flex flex-row items-end">
             {edit ? (
                 <EditTask onAdd={editTask} task={task} />
             ) : (
                 <TaskDetails task={task} user={user} />
             )}
-            <div className="flex flex-row justify-end">
+            <div className="flex flex-row h-8 items-start">
                 <button className="delete-button submit" onClick={deleteTask}>
                     <DeleteIcon fontSize="small" />
                 </button>
-                <button className="delete-button submit" onClick={() => setShowEdit(!edit)}>
+                <button
+                    className="delete-button submit"
+                    onClick={() => setShowEdit(!edit)}
+                >
                     <EditIcon fontSize="small" />
                 </button>
             </div>
@@ -67,7 +67,10 @@ const TaskDetails = ({ task, user }) => {
             <h3 className="font-bold text-lg">{task.title}</h3>
             <h4>{task.description}</h4>
             <div className="mx-0 flex flex-row items-center">
-                <img className="w-8" src={user.avatarUrl} />
+                <img
+                    className="inline object-cover w-12 h-12 mr-2 rounded-full"
+                    src={user.avatarUrl}
+                />
                 {user.name}
             </div>
         </div>
