@@ -70,6 +70,16 @@ function checkTaskExists(task, id, res) {
   }
 }
 
+function checkUserExists(user, id, res) {
+  if (user === null) {
+    res.status(404).send({
+      message: `User with id '${id}' not found`,
+    });
+  } else {
+    return true;
+  }
+}
+
 //Get all boards
 app.get("/boards", async (req, res) => {
   const boards = await Board.findAll();
@@ -138,6 +148,21 @@ app.get("/columns/:id/tasks", async (req, res) => {
   }
 });
 
+//Delete a user
+app.delete("/users/:id", async (req, res) => {
+  if (checkIdValid(req.params.id, res)) {
+    const user = await User.findByPk(req.params.id);
+    if (checkUserExists(user, req.params.id, res)) {
+      User.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.send({ message: "User deleted successfully" });
+    }
+  }
+});
+
 //Delete a board
 app.delete("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
@@ -193,7 +218,7 @@ app.patch("/columns/:id", async (req, res) => {
     } else {
       const column = await Column.findByPk(req.params.id);
       if (checkColumnExists(column, req.params.id, res)) {
-        await column.update({ title: req.body.title});
+        await column.update({ title: req.body.title });
         return res.send({ message: "Column updated successfully", column });
       }
     }
@@ -289,8 +314,8 @@ app.post("/users", validate(userValidation, {}, {}), async (req, res) => {
               isAdmin: isAdmin,
             });
             res.send({
-              token: "testToken",
-              user
+              token: user.id,
+              user,
             });
           });
         });
@@ -324,7 +349,7 @@ app.post("/users/login", async (req, res) => {
         // if passwords match
         if (result) {
           res.send({
-            token: "testToken",
+            token: user.id,
           });
         }
         // if passwords do not match
@@ -370,20 +395,20 @@ app.post("/tasks", async (req, res) => {
     }
     const column = await Column.findByPk(req.body.columnId);
     if (!checkColumnExists(column, req.body.columnId, res)) {
-        return;
+      return;
     }
     const userId = req.body.userId;
     if (userId) {
       const user = await User.findByPk(req.body.userId);
-        if (!user) {
-          return res.status(404).send({message: `No user ${req.body.userId}`});
-        }
+      if (!user) {
+        return res.status(404).send({ message: `No user ${req.body.userId}` });
+      }
     }
     const task = await Task.create({
       title: req.body.title,
       description: req.body.description,
       columnId: req.body.columnId,
-      userId: req.body.userId
+      userId: req.body.userId,
     });
     res.send({ task, message: "Task created successfully" });
   }
