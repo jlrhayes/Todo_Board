@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Column.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Column.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Task from "./Task";
+import AddTask from "./AddTask";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import React, { useState } from "react";
+import AddColumn from "./AddColumn";
+
+/**
+ * A board Button, The first option makes the modt sense in my opinion
+ * @param {object} props { column, onDelete, onEdit }
+ * @param {object} column a variable
+ * @param {number} onDelete a variable
+ * @param {number} onEdit a variable
+ * @returns {number} a component
+ */
+const Column = ({ column, onDelete, onEdit }) => {
+    //need to find tasks under column id and add to task list
+    const [tasks, setTasks] = useState([]);
+    const [edit, setShowEdit] = useState(false);
+
+    React.useEffect(() => {
+        getTasks();
+    }, []);
+
+    const addTask = async (newTask) => {
+        newTask["columnId"] = column.id;
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newTask),
+        };
+        await fetch(`http://localhost:4000/tasks`, requestOptions);
+        getTasks();
+    };
+
+    const getTasks = () => {
+        fetch(`http://localhost:4000/columns/${column.id}/tasks`)
+            .then((res) => res.json())
+            .then((data) => setTasks(data))
+            .catch((e) => console.log(e));
+    };
+
+    const deleteTask = async (id) => {
+        const requestOptions = { method: "DELETE" };
+        await fetch(`http://localhost:4000/tasks/${id}`, requestOptions);
+        getTasks();
+    };
+
+    const editColumn = async (updatedColumn) => {
+        console.log(updatedColumn);
+        const requestOptions = {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedColumn),
+        };
+        await fetch(
+            `http://localhost:4000/columns/${column.id}`,
+            requestOptions
+        );
+        onEdit();
+        setShowEdit(false);
+    };
+
+    return (
+        &lt;div className="w-96 mx-8 justify-self-center">
+            &lt;div className="spartan border-red-50 flex justify-between items-center">
+                {edit ? (
+                    &lt;AddColumn
+                        onAdd={editColumn}
+                        placeholder="Column Name"
+                    >&lt;/AddColumn>
+                ) : (
+                    &lt;header>{column.title}&lt;/header>
+                )}
+                &lt;div className="flex justify-between">
+                    &lt;button className="delete-button submit" onClick={onDelete}>
+                        &lt;DeleteIcon fontSize="small" />
+                    &lt;/button>
+                    &lt;button
+                        className="delete-button submit"
+                        onClick={() => setShowEdit(true)}
+                    >
+                        &lt;EditIcon fontSize="small" />
+                    &lt;/button>
+                &lt;/div>
+            &lt;/div>
+            {tasks.map((task) => (
+                &lt;Task
+                    className="task"
+                    key={task.id}
+                    task={task}
+                    onEdit={() => getTasks()}
+                    deleteTask={() => deleteTask(task.id)}
+                />
+            ))}
+            &lt;AddTask heading={"New Task"} onAdd={addTask}>&lt;/AddTask>
+        &lt;/div>
+    );
+};
+
+export default Column;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddTask.html">AddTask</a></li><li><a href="Login.html">Login</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AddBoard">AddBoard</a></li><li><a href="global.html#AddColumn">AddColumn</a></li><li><a href="global.html#Board">Board</a></li><li><a href="global.html#BoardButton">BoardButton</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Column">Column</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#ModalComponent">ModalComponent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Oct 14 2021 19:47:06 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

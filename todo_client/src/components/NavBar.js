@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
 
-export default function NavBar() {
+/**
+ * A NavBar component that send the user back to the home page when they 
+ * click on the home icon.
+ * @returns {element} An element
+ */
+function NavBar() {
   const links = [{ icon: HomeIcon, slug: "/" }];
   return (
     <div className="bg-white w-full object-top-right">
@@ -19,3 +24,5 @@ export default function NavBar() {
     </div>
   );
 }
+
+export default NavBar;
