@@ -78,3 +78,4 @@ Columns have a boardId which connects to a specific board in the Boards table. A
 ## Unit test coverage report
 <img width="1102" alt="test-coverage" src="https://user-images.githubusercontent.com/68942539/137484967-aa3d62b2-1262-48e5-99e1-973f093dac55.png">
 
+<img width="1102" alt="test-coverage" src="Backend Coverage Report.png">
