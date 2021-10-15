@@ -1,9 +1,16 @@
 import React from "react";
 import "./AddTask.css";
 
-export default class AddTask extends React.Component {
+/**
+ * An AddTask component defined by an ES6 class. 
+ * It returns a form that allows you to enter information to add a task.
+ */
+class AddTask extends React.Component {
     constructor(props) {
         super(props);
+        /** 
+         * @property {object} state Stores property values that belongs to the component
+        */
         this.state = {
             users: [],
             title: "",
@@ -11,7 +18,13 @@ export default class AddTask extends React.Component {
             userId: 1,
             submitted: false,
         };
+        /** 
+         * @property {function} handleChange Binds handleChange function to class instance
+        */
         this.handleChange = this.handleChange.bind(this);
+        /** 
+         * @property {object} state Binds handleSubmit function to class instance
+        */
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -82,3 +95,5 @@ export default class AddTask extends React.Component {
         );
     }
 }
+
+export default AddTask;

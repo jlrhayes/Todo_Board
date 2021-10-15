@@ -2,11 +2,15 @@ import React,{useState} from 'react'
 import ModalComponent from './ModalComponent'
 import './Add.css';
 
+
+/** 
+ * An AddBoard component that refers to ModalComponent in its output.
+ * @param {object} onAdd <description>
+ * @returns {element} ModalComponent
+ */
 const AddBoard = ({onAdd}) => {
     const [title,setTitle] = useState('')
 
-      
-    
     const onSubmit = (e) =>{
         console.log(e)
         e.preventDefault()
