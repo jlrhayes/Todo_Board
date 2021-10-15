@@ -51,6 +51,7 @@ Christie - Forms, connecting forms to the database, edit and delete buttons, sty
 <img src="To-Do App Schema Diagram.png" alt="Schema Diagram" width="200"/>
 
 ### Sequence Diagrams
+<div class="display: grid; grid-template-columns: repeat(3, 1fr);">
 <img src="Sequence Diagrams/To-Do App Change Password Sequence Diagram.png" alt="Sequence Diagram" width="200"/>
 <img src="Sequence Diagrams/To-Do App Create Board Sequence Diagram.png" alt="Sequence Diagram" width="200"/>
 <img src="Sequence Diagrams/To-Do App Create User Sequence Diagram.png" alt="Sequence Diagram" width="200"/>
@@ -62,7 +63,7 @@ Christie - Forms, connecting forms to the database, edit and delete buttons, sty
 <img src="Sequence Diagrams/To-Do App Edit Task Sequence Diagram.png" alt="Sequence Diagram" width="200"/>
 <img src="Sequence Diagrams/To-Do App Login Sequence Diagram.png" alt="Sequence Diagram" width="200"/>
 <img src="Sequence Diagrams/To-Do App Move Task Sequence Diagram.png" alt="Sequence Diagram" width="200"/>
-
+</div>
 
 ## Database design
 We have four tables, Users, Boards, Columns, and Tasks.
@@ -75,4 +76,5 @@ Columns have a boardId which connects to a specific board in the Boards table. A
 
 
 ## Unit test coverage report
+<img width="1102" alt="test-coverage" src="https://user-images.githubusercontent.com/68942539/137484967-aa3d62b2-1262-48e5-99e1-973f093dac55.png">
 
