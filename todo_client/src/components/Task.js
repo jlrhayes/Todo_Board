@@ -40,13 +40,13 @@ const Task = ({ task, deleteTask, onEdit }) => {
     };
 
     return (
-        <div className="task flex flex-row items-end">
+        <div className="task flex flex-row items-end justify-between">
             {edit ? (
                 <EditTask onAdd={editTask} task={task} />
             ) : (
                 <TaskDetails task={task} user={user} />
             )}
-            <div className="flex flex-row h-8 items-start">
+            <div className="flex flex-row h-8 items-end justify-start w-max">
                 <button className="delete-button submit" onClick={deleteTask}>
                     <DeleteIcon fontSize="small" />
                 </button>
