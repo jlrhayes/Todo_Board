@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import "./Login.css";
 
-export default class Register extends React.Component {
+/**
+ * A Register Component that renders a form.
+ */
+class Register extends React.Component {
   constructor(props) {
     super(props);
+    /** 
+     * @property {object} state Stores property values that belongs to the component
+    */
     this.state = {
       name: "",
       password: "",
@@ -11,7 +17,13 @@ export default class Register extends React.Component {
       avatarUrl: "",
       isAdmin: false,
     };
+    /** 
+     * @property {function} handleChange Binding handleChange function to class instance
+    */
     this.handleChange = this.handleChange.bind(this);
+    /** 
+     * @property {function} handleSubmit Binding handleSubmit function to class instance
+    */
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -112,3 +124,5 @@ export default class Register extends React.Component {
     );
   }
 }
+
+export default Register;

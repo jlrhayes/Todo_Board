@@ -29,7 +29,12 @@ function redirectToLogin() {
   document.location.href = "/login";
 }
 
-export default function NavBar() {
+/**
+ * A NavBar component that send the user back to the home page when they 
+ * click on the home icon.
+ * @returns {element} An element
+ */
+function NavBar() {
   const links = [{ icon: HomeIcon, slug: "/" }];
   const token = localStorage.getItem("token");
   const path = window.location.pathname;
@@ -71,3 +76,5 @@ export default function NavBar() {
     </div>
   );
 }
+
+export default NavBar;

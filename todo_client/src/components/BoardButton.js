@@ -1,6 +1,13 @@
 import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
+/**
+ * A boardButton component that returns a button.
+ * @param {object} board <Description>
+ * @param {object} onDelete <Description>
+ * @param {object} link  <Description>
+ * @returns {element} A button element
+ */
 const BoardButton = ({ board, onDelete, link }) => {
     return (
         <div

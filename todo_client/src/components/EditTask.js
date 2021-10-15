@@ -1,12 +1,27 @@
 import React from "react";
 import "./AddTask.css";
 
-export default class AddTask extends React.Component {
+/**
+ * Class to edit tasks
+ */
+class AddTask extends React.Component {
     constructor(props) {
         super(props);
+         /** 
+         * @property {object} state state Stores property values that belongs to the component
+        */
         this.state = props.task;
+         /** 
+         * @property {boolean} state.submitted  <description>
+        */
         this.state.submitted = false;
+         /** 
+         * @property {function} handleChange Binding handleChange function to class instance
+        */
         this.handleChange = this.handleChange.bind(this);
+         /** 
+         * @property {function} handleSubmit Binding handleSubmit function to class instance
+        */
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -52,3 +67,5 @@ export default class AddTask extends React.Component {
         );
     }
 }
+
+export default AddTask;

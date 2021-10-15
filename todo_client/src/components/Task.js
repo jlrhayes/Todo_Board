@@ -4,6 +4,15 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import EditTask from "./EditTask";
 
+/**
+ * The task component returns two buttons - the edit and delete buttons.
+ * It also allows the user to make HTTP requests.
+ * @param {object} deleteTask <description>
+ * @param {object} task <description>
+ * @param {object} onEdit <description>
+ * @returns {element} An element
+ */
+
 const Task = ({ task, deleteTask, onEdit }) => {
     //need to find tasks under column id and add to task list
     const [user, setUser] = useState([]);

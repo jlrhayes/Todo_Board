@@ -5,6 +5,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import React, { useState } from "react";
 import AddColumn from "./AddColumn";
 
+/**
+ * A column component that refers to the AddColumn, AddTask and Task components in its output.
+ * @param {object} column <description>
+ * @param {object} onDelete <description>
+ * @param {object} onEdit <description>
+ * @returns {element} An element
+ */
 const Column = ({ column, onDelete, onEdit }) => {
     //need to find tasks under column id and add to task list
     const [tasks, setTasks] = useState([]);

@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import "./Login.css";
 
-export default class Login extends React.Component {
+/**
+ * Login Component that returns a form that requires the user to enter username and password.
+ */
+class Login extends React.Component {
   constructor(props) {
     super(props);
+    /** 
+     * @property {object} state state Stores property values that belongs to the component
+    */
     this.state = {
       name: "",
       password: "",
     };
+    /** 
+     * @property {function} handleChange binding handleChange function to class instance
+    */
     this.handleChange = this.handleChange.bind(this);
+    /** 
+     * @property {function} handleSubmit binding handleSubmit function to class instance
+    */
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -81,3 +93,5 @@ export default class Login extends React.Component {
     );
   }
 }
+
+export default Login;
