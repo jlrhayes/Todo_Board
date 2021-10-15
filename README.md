@@ -9,7 +9,7 @@ To run the frontend and backend:
 
 To refresh the documentation run:
 
-In VSCode you can download an extension called ["Live Server"](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) if you right click the file "index.html" in the "todo_client/src/jsdoc" folder you can open it with Live Server.
+In VSCode you can download an extension called ["Live Server"](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) if you right click the file "index.html" in the "todo_client/jsdoc" folder you can open it with Live Server.
 
 ## Features of the application
 
