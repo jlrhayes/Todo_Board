@@ -40,7 +40,7 @@ Josh - Frontend modal and base classes.
 
 Katie - Most of the testing, created database models, documentation.
 
-Christie - Forms, connecting forms to the database, edit and delete buttons, styling.
+Christie - Forms, added some endpoints with tests, edit and delete buttons, styling.
 
 
 ## UML Diagrams
