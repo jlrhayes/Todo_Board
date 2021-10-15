@@ -14,9 +14,13 @@ In VSCode you can download an extension called ["Live Server"](https://marketpla
 ## Features of the application
 
 ### Dashboard
+![Screenshot 2021-10-15 at 14 25 30](https://user-images.githubusercontent.com/68942539/137494489-50f77e9d-7ec7-4811-844c-068d6888f26d.png)
+
 The dashboard contains all of the currently existing boards. It also contains a modal with a form to create a new board.
 
 ### Board
+![Screenshot 2021-10-15 at 14 25 18](https://user-images.githubusercontent.com/68942539/137494714-450889b9-bca2-4e05-bda4-48f603b903d0.png)
+
 Each board contains a list of columns. It also includes a form to create a new column.
 
 ### Column
@@ -27,7 +31,7 @@ Each task has a title and a description and is either assigned to a user or unas
 
 ### User
 Users have a name, email, password, avatar URL and an admin status. Only admins can create boards and columns. Users can be deleted and passwords are salted and hashed.
-
+![Screenshot 2021-10-15 at 14 25 59](https://user-images.githubusercontent.com/68942539/137494538-5a17e540-cb59-46a5-afaa-2478fe7b62c2.png)
 ## Design decisions
 We went for a beige and orange colour palette because it is high contrast and makes the content easily readable.
 
