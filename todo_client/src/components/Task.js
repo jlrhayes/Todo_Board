@@ -13,14 +13,14 @@ import EditTask from "./EditTask";
  * @returns {element} An element
  */
 
-const Task = ({ task, onDelete, onEdit }) => {
+const Task = ({ task, onDelete, onEdit, allColumns, changeColumn  }) => {
     //need to find tasks under column id and add to task list
     const [user, setUser] = useState([]);
     const [edit, setShowEdit] = useState(false);
 
     React.useEffect(() => {
         getUser();
-    }, []);
+    },[]);
 
     const getUser = () => {
         fetch(`http://localhost:4000/users/${task.userId}`)
@@ -47,7 +47,7 @@ const Task = ({ task, onDelete, onEdit }) => {
             {edit ? (
                 <EditTask onAdd={editTask} task={task} />
             ) : (
-                <TaskDetails task={task} user={user} />
+                <TaskDetails task={task} user={user} onChange = {(e) => changeColumn(e.target.value)} allColumns = {allColumns} />
             )}
             <div className="flex flex-row justify-end">
                 <button className="delete-button submit" onClick={onDelete}>
@@ -61,7 +61,7 @@ const Task = ({ task, onDelete, onEdit }) => {
     );
 };
 
-const TaskDetails = ({ task, user }) => {
+const TaskDetails = ({ task, user, onChange, allColumns }) => {
     return (
         <div className="flex flex-col">
             <h3 className="font-bold text-lg">{task.title}</h3>
@@ -70,6 +70,18 @@ const TaskDetails = ({ task, user }) => {
                 <img className="w-8" src={user.avatarUrl} />
                 {user.name}
             </div>
+                <select
+                    name="columnId"
+                    value={task.columnId}
+                    type="select"
+                    onChange = {onChange}
+                >
+                    {allColumns.map((column) => (
+                        <option value={column.id}>
+                            {column.title}
+                        </option>
+                    ))}
+                </select>
         </div>
     );
 };

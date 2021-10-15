@@ -55,6 +55,7 @@ const Board = () => {
         <Column
           className="column"
           key={column.id}
+          allColumns = {columns}
           column={column}
           onEdit={() => getColumnData()}
           onDelete={() => deleteColumn(column.id)}

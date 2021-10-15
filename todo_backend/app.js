@@ -239,6 +239,21 @@ app.patch("/tasks/:id", async (req, res) => {
   }
 });
 
+
+//change task column
+app.patch("/tasks/:id/changeColumn", async (req, res) => {
+  if (checkIdValid(req.params.id, res)) {
+    const task = await Task.findByPk(req.params.id);
+    if (checkTaskExists(task, req.params.id, res)) {
+      task.update({
+        columnId : req.body.columnId,
+      });
+      res.send({ message: "Task updated successfully" });
+    }
+  }
+});
+
+
 //Update board
 app.patch("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
