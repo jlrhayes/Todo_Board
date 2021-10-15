@@ -5,7 +5,7 @@ import './Add.css';
 
 /** 
  * An AddBoard component that refers to ModalComponent in its output.
- * @param {object} onAdd <description>
+ * @param {function} onAdd - A callback to run upon form submit.
  * @returns {element} ModalComponent
  */
 const AddBoard = ({onAdd}) => {

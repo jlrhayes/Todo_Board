@@ -4,7 +4,7 @@ import "./AddTask.css";
 /**
  * Class to edit tasks
  */
-class AddTask extends React.Component {
+class EditTask extends React.Component {
     constructor(props) {
         super(props);
          /** 
@@ -68,4 +68,4 @@ class AddTask extends React.Component {
     }
 }
 
-export default AddTask;
+export default EditTask;

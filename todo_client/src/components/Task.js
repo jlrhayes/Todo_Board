@@ -7,13 +7,13 @@ import EditTask from "./EditTask";
 /**
  * The task component returns two buttons - the edit and delete buttons.
  * It also allows the user to make HTTP requests.
- * @param {object} deleteTask <description>
- * @param {object} task <description>
- * @param {object} onEdit <description>
+ * @param {object} task - An object containing all the properties of a task.
+ * @param {function} onDelete - Callback to be triggered when delete button is clicked. 
+ * @param {function} onEdit - Callback to be triggered when the edit button is clicked.
  * @returns {element} An element
  */
 
-const Task = ({ task, deleteTask, onEdit }) => {
+const Task = ({ task, onDelete, onEdit }) => {
     //need to find tasks under column id and add to task list
     const [user, setUser] = useState([]);
     const [edit, setShowEdit] = useState(false);
@@ -50,7 +50,7 @@ const Task = ({ task, deleteTask, onEdit }) => {
                 <TaskDetails task={task} user={user} />
             )}
             <div className="flex flex-row justify-end">
-                <button className="delete-button submit" onClick={deleteTask}>
+                <button className="delete-button submit" onClick={onDelete}>
                     <DeleteIcon fontSize="small" />
                 </button>
                 <button className="delete-button submit" onClick={() => setShowEdit(!edit)}>

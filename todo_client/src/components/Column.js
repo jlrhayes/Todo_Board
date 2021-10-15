@@ -89,7 +89,7 @@ const Column = ({ column, onDelete, onEdit }) => {
                     key={task.id}
                     task={task}
                     onEdit={() => getTasks()}
-                    deleteTask={() => deleteTask(task.id)}
+                    onDelete={() => deleteTask(task.id)}
                 />
             ))}
             <AddTask heading={"New Task"} onAdd={addTask}></AddTask>

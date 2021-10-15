@@ -19,11 +19,11 @@ class AddTask extends React.Component {
             submitted: false,
         };
         /** 
-         * @property {function} handleChange Binds handleChange function to class instance
+         * @property {function} handleChange - Callback to trigger on changes to input field.
         */
         this.handleChange = this.handleChange.bind(this);
         /** 
-         * @property {object} state Binds handleSubmit function to class instance
+         * @property {object} handleSubmit - Callback to trigger on form submit.
         */
         this.handleSubmit = this.handleSubmit.bind(this);
     }
