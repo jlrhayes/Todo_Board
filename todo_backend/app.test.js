@@ -38,7 +38,6 @@ describe("/users works", () => {
     const okResponse = await request(app).get("/users/1");
     expect(okResponse.statusCode).toBe(200);
   });
-
 });
 
 // ------------------------------------------------------------
@@ -385,7 +384,7 @@ describe("UPDATE a column title with an id of 1", () => {
     return request(app)
       .patch("/columns/1")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(200);
@@ -398,7 +397,7 @@ describe("UPDATE a column title that is not in the database", () => {
     return request(app)
       .patch("/columns/5")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(404);
@@ -411,7 +410,7 @@ describe("UPDATE a column title with a negative id ", () => {
     return request(app)
       .patch("/columns/-5")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -437,7 +436,7 @@ describe("UPDATE a column title with a float id", () => {
     return request(app)
       .patch("/columns/1.5")
       .send({
-        name: "New Column",
+        title: "New Column",
       })
       .then((response) => {
         expect(response.statusCode).toBe(400);

@@ -1,9 +1,16 @@
 import React from "react";
 import "./AddTask.css";
 
-export default class AddTask extends React.Component {
+/**
+ * An AddTask component defined by an ES6 class. 
+ * It returns a form that allows you to enter information to add a task.
+ */
+class AddTask extends React.Component {
     constructor(props) {
         super(props);
+        /** 
+         * @property {object} state Stores property values that belongs to the component
+        */
         this.state = {
             users: [],
             title: "",
@@ -11,9 +18,15 @@ export default class AddTask extends React.Component {
             userId: 1,
             submitted: false,
         };
+        /** 
+         * @property {function} handleChange - Callback to trigger on changes to input field.
+        */
         this.handleChange = this.handleChange.bind(this);
+        /** 
+         * @property {object} handleSubmit - Callback to trigger on form submit.
+        */
         this.handleSubmit = this.handleSubmit.bind(this);
-   }
+    }
 
     componentDidMount() {
         fetch(`http://localhost:4000/users`)
@@ -29,17 +42,17 @@ export default class AddTask extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, description, userId, columnId} = this.state;
-        this.props.onAdd({ title, description, userId });
+        const { title, description, userId, columnId } = this.state;
+        this.props.onAdd({ title, description, userId, columnId });
         this.setState({ submitted: true });
     }
 
     render() {
         const { title, description, userId } = this.state;
- 
+
         return (
             <div className="task-form form-wrapper">
-                <h2 className="font-bold text-xl mx-2">New Task</h2>
+                <h2 className="font-bold text-xl">{this.props.heading}</h2>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Task:
@@ -82,3 +95,5 @@ export default class AddTask extends React.Component {
         );
     }
 }
+
+export default AddTask;

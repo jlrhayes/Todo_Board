@@ -6,6 +6,9 @@ const Board = require("./board");
 const Column = require("./column");
 const Task = require("./task");
 const sandbox = require("./sandbox");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const isImageUrl = require("is-image-url");
 
 const app = express();
 const cors = require("cors");
@@ -61,6 +64,16 @@ function checkTaskExists(task, id, res) {
   if (task === null) {
     res.status(404).send({
       message: `Task with id '${id}' not found`,
+    });
+  } else {
+    return true;
+  }
+}
+
+function checkUserExists(user, id, res) {
+  if (user === null) {
+    res.status(404).send({
+      message: `User with id '${id}' not found`,
     });
   } else {
     return true;
@@ -135,12 +148,26 @@ app.get("/columns/:id/tasks", async (req, res) => {
   }
 });
 
+//Delete a user
+app.delete("/users/:id", async (req, res) => {
+  if (checkIdValid(req.params.id, res)) {
+    const user = await User.findByPk(req.params.id);
+    if (checkUserExists(user, req.params.id, res)) {
+      User.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.send({ message: "User deleted successfully" });
+    }
+  }
+});
+
 //Delete a board
 app.delete("/boards/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
     const board = await Board.findByPk(req.params.id);
     if (checkBoardExists(board, req.params.id, res)) {
-      
       Board.destroy({
         where: {
           id: req.params.id,
@@ -184,15 +211,15 @@ app.delete("/tasks/:id", async (req, res) => {
 //Update column name
 app.patch("/columns/:id", async (req, res) => {
   if (checkIdValid(req.params.id, res)) {
-    if (!req.body.name) {
-      res.status(400).send({
+    if (!req.body.title) {
+      return res.status(400).send({
         message: `Please pass a valid name`,
       });
     } else {
       const column = await Column.findByPk(req.params.id);
       if (checkColumnExists(column, req.params.id, res)) {
-        column.update({ name: req.body.name });
-        res.send({ message: "Column updated successfully" });
+        await column.update({ title: req.body.title });
+        return res.send({ message: "Column updated successfully", column });
       }
     }
   }
@@ -261,7 +288,7 @@ app.post("/boards", async (req, res) => {
 const userValidation = {
   body: Joi.object({
     name: Joi.string().required(),
-    passwordHash: Joi.string().required(),
+    password: Joi.string().required(),
     email: Joi.string().required(),
     avatarUrl: Joi.string().required(),
     isAdmin: Joi.boolean().required(),
@@ -270,14 +297,87 @@ const userValidation = {
 
 // Create a new user
 app.post("/users", validate(userValidation, {}, {}), async (req, res) => {
-  const user = await User.create({
-    name: req.body.name,
-    passwordHash: req.body.passwordHash,
-    email: req.body.email,
-    avatarUrl: req.body.avatarUrl,
-    isAdmin: req.body.isAdmin,
+  const { name, email, password, avatarUrl, isAdmin } = req.body;
+  if (isImageUrl(avatarUrl)) {
+    //Check if name exists (case insenitive)
+    const user = await User.findOne({
+      where: {
+        name: sequelize.where(
+          sequelize.fn("LOWER", sequelize.col("name")),
+          "LIKE",
+          "%" + name.toLowerCase() + "%"
+        ),
+      },
+    });
+    if (user) {
+      res
+        .status(400)
+        .send({ message: `User with name '${name}' already exists.` });
+    } else {
+      if (password.length < 6) {
+        res.status(400).send({
+          message: `Please enter a password with a length of 6 characters or more.`,
+        });
+      } else {
+        bcrypt.genSalt(saltRounds, function (err, salt) {
+          bcrypt.hash(password, salt, async function (err, hash) {
+            const user = await User.create({
+              name: name,
+              passwordHash: hash,
+              email: email,
+              avatarUrl: avatarUrl,
+              isAdmin: isAdmin,
+            });
+            res.send({
+              token: user.id,
+              user,
+            });
+          });
+        });
+      }
+    }
+  } else {
+    res.status(400).send({ message: `Please pass a valid logo url.` });
+  }
+});
+
+//login
+app.post("/users/login", async (req, res) => {
+  const { name, password } = req.body;
+  const user = await User.findOne({
+    where: {
+      name: sequelize.where(
+        sequelize.fn("LOWER", sequelize.col("name")),
+        "LIKE",
+        "%" + name.toLowerCase() + "%"
+      ),
+    },
   });
-  res.send({ message: "User created successfully", user });
+  if (password.length < 6) {
+    res.status(400).send({
+      message: `Please enter a password with a length of 6 characters or more.`,
+    });
+  } else {
+    if (user) {
+      bcrypt.compare(password, user.passwordHash, function (err, result) {
+        // Compare
+        // if passwords match
+        if (result) {
+          res.send({
+            token: user.id,
+          });
+        }
+        // if passwords do not match
+        else {
+          res.status(400).send({ message: "Password incorrect" });
+        }
+      });
+    } else {
+      res
+        .status(400)
+        .send({ message: `No user with the name '${name}' found.` });
+    }
+  }
 });
 
 // Create a new column
@@ -304,20 +404,28 @@ app.post("/boards/:boardId/columns/", async (req, res) => {
 app.post("/tasks", async (req, res) => {
   if (checkIdValid(req.body.columnId, res)) {
     if (!req.body.title) {
-      res.status(400).send({
+      return res.status(400).send({
         message: `Please pass a valid title`,
       });
-    } else {
-      const column = await Column.findByPk(req.body.columnId);
-      if (checkColumnExists(column, req.body.columnId, res)) {
-        await Task.create({
-          title: req.body.title,
-          description: req.body.description,
-          columnId: req.body.columnId,
-        });
-        res.send({ message: "Task created successfully" });
+    }
+    const column = await Column.findByPk(req.body.columnId);
+    if (!checkColumnExists(column, req.body.columnId, res)) {
+      return;
+    }
+    const userId = req.body.userId;
+    if (userId) {
+      const user = await User.findByPk(req.body.userId);
+      if (!user) {
+        return res.status(404).send({ message: `No user ${req.body.userId}` });
       }
     }
+    const task = await Task.create({
+      title: req.body.title,
+      description: req.body.description,
+      columnId: req.body.columnId,
+      userId: req.body.userId,
+    });
+    res.send({ task, message: "Task created successfully" });
   }
 });
 

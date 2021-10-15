@@ -12,12 +12,18 @@ const customStyles = {
   },
 };
 
-Modal.setAppElement('#root');
+if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#root');
 
+/**
+ * A Modal Component
+ * @param {object} inputs <description>
+ * @param {object} onSubmit <description>
+ * @param {object} modalText <description>
+ * @returns {element} An element
+ */
 const ModalComponent = ({inputs,onSubmit,modalText}) => {
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
-
 
   function openModal() {
     setIsOpen(true);
