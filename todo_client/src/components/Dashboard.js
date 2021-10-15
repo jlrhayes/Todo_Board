@@ -2,6 +2,10 @@ import React, { useState } from "react"
 import AddBoard from "./AddBoard"
 import BoardButton from "./BoardButton"
 
+/**
+ * A Dashboard component that refers to the AddBoard and BoardButton components in its output.
+ * @returns {element} An element
+ */
 const Dashboard = () => {
     //need to move this into board dashboard
     const [boards, setBoards] = useState([])

@@ -7,6 +7,10 @@ import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import Board from "./components/Board";
 
+/**
+ * We have created an App component that renders other components.
+ * @returns {object} an element
+ */
 function App() {
   const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
     const token = localStorage.getItem("token");

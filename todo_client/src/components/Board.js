@@ -4,6 +4,10 @@ import React, { useState } from "react";
 import "./Board.css";
 import { Link } from "react-router-dom";
 
+/**
+ * A board component that refers to the Column and AddColumn components in its output.
+ * @returns {element} An element
+ */
 const Board = () => {
   //need to move this into board dashboard
   const boardId = window.location.pathname;
